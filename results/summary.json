@@ -1,4 +1,19 @@
 {
+  "inputs_sha256": {
+    "raw/4MEN.pdb": "a1b21bdc30365fb0ca905a6f9f00cc5955e3b382e6b726c02e4a2162be55b6a0",
+    "raw/4MEN_entry.json": "0ab358f1c41ae1008405ac3613aab027d7a625cbfe3e44a1a3073ddf8c7cc29b",
+    "ccd/25K_ideal.sdf": "2e978f1ec28868bcb8595e0001dd7964e8dc196a6f8a236a6c0dc6e3e48eb81b",
+    "raw/4MEO.pdb": "16f7df00cb65a5658c5e3bbb97458327ce73a27993b7304f035753215fa1b3de",
+    "raw/4MEO_entry.json": "6c47f4fb65484bbd3d87d835096a5ae82d31f5fb45533fd2813af4cd71e18cd0",
+    "ccd/25V_ideal.sdf": "18482eef7c8936325b4ce3455b219af3eb679c503f36145ba6f623f0eec31ef0"
+  },
+  "software": {
+    "rdkit": "2026.3.6",
+    "biopython": "1.88",
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "matplotlib": "3.11.2"
+  },
   "4MEN": {
     "pdb_id": "4MEN",
     "ligand_component": "25K",
@@ -23,6 +38,36 @@
       "smiles_match": true,
       "level": "smiles_match"
     },
+    "ligand_model_quality": {
+      "occupancies": [
+        1.0
+      ],
+      "b_factor_min": 9.56,
+      "b_factor_mean": 14.26,
+      "b_factor_max": 18.34,
+      "b_factor_by_atom": {
+        "C10": 11.27,
+        "C9": 14.99,
+        "C8": 16.43,
+        "N1": 12.35,
+        "C11": 9.56,
+        "N4": 12.52,
+        "N3": 15.35,
+        "C12": 13.49,
+        "N2": 13.72,
+        "C7": 16.73,
+        "N": 15.36,
+        "C6": 16.19,
+        "C5": 13.12,
+        "C4": 17.46,
+        "C3": 11.29,
+        "C2": 10.95,
+        "C13": 16.59,
+        "C14": 18.34,
+        "C1": 13.31,
+        "C": 16.2
+      }
+    },
     "descriptors": {
       "component_id": "25K",
       "ccd_formula": "C15H17N5",
@@ -34,6 +79,8 @@
       "clogp": 2.3775400000000007,
       "hbd": 0,
       "hba": 4,
+      "hbd_lipinski_nhoh": 0,
+      "hba_lipinski_no": 5,
       "tpsa": 46.32,
       "rotatable_bonds": 3,
       "heavy_atom_count": 20,
@@ -159,7 +206,49 @@
         "residue": "A:PRO82",
         "min_distance_A": 3.485
       }
-    ]
+    ],
+    "closest_atom_pairs": [
+      {
+        "protein_atom": "A:ASN140:ND2",
+        "ligand_atom": "25K:N2",
+        "distance_A": 2.844
+      },
+      {
+        "protein_atom": "A:PHE83:CE1",
+        "ligand_atom": "25K:C10",
+        "distance_A": 3.353
+      },
+      {
+        "protein_atom": "A:ASN140:OD1",
+        "ligand_atom": "25K:C12",
+        "distance_A": 3.373
+      },
+      {
+        "protein_atom": "A:PHE83:CD1",
+        "ligand_atom": "25K:C10",
+        "distance_A": 3.378
+      },
+      {
+        "protein_atom": "A:TRP81:CH2",
+        "ligand_atom": "25K:C2",
+        "distance_A": 3.42
+      },
+      {
+        "protein_atom": "A:ASN140:OD1",
+        "ligand_atom": "25K:N2",
+        "distance_A": 3.427
+      }
+    ],
+    "vdw_overlap_screen": {
+      "min_overlap_A": 0.25,
+      "pairs": []
+    },
+    "nonprotein_neighbours": {
+      "het_group_min_distance_A": {
+        "EDO201": 10.906
+      },
+      "waters_within_3.5A": 6
+    }
   },
   "4MEO": {
     "pdb_id": "4MEO",
@@ -188,6 +277,38 @@
       "smiles_match": true,
       "level": "smiles_match"
     },
+    "ligand_model_quality": {
+      "occupancies": [
+        1.0
+      ],
+      "b_factor_min": 13.59,
+      "b_factor_mean": 26.11,
+      "b_factor_max": 37.23,
+      "b_factor_by_atom": {
+        "O1": 31.51,
+        "C1": 27.05,
+        "C": 22.43,
+        "N": 37.23,
+        "C2": 33.5,
+        "C17": 28.87,
+        "C16": 25.34,
+        "C15": 23.29,
+        "C4": 28.22,
+        "C3": 32.81,
+        "C5": 24.57,
+        "C14": 20.04,
+        "C13": 25.11,
+        "C12": 25.09,
+        "C11": 21.11,
+        "C10": 21.09,
+        "C9": 27.81,
+        "N1": 13.59,
+        "O": 34.52,
+        "C7": 23.91,
+        "C8": 19.86,
+        "C6": 27.49
+      }
+    },
     "descriptors": {
       "component_id": "25V",
       "ccd_formula": "C18H16N2O2",
@@ -199,6 +320,8 @@
       "clogp": 3.407020000000002,
       "hbd": 1,
       "hba": 2,
+      "hbd_lipinski_nhoh": 1,
+      "hba_lipinski_no": 4,
       "tpsa": 56.040000000000006,
       "rotatable_bonds": 2,
       "heavy_atom_count": 22,
@@ -327,12 +450,76 @@
         "residue": "A:VAL87",
         "min_distance_A": 3.452
       }
-    ]
+    ],
+    "closest_atom_pairs": [
+      {
+        "protein_atom": "A:ASP88:N",
+        "ligand_atom": "25V:O1",
+        "distance_A": 2.67
+      },
+      {
+        "protein_atom": "A:ASN140:ND2",
+        "ligand_atom": "25V:O",
+        "distance_A": 2.881
+      },
+      {
+        "protein_atom": "A:LEU92:CD1",
+        "ligand_atom": "25V:O1",
+        "distance_A": 2.91
+      },
+      {
+        "protein_atom": "A:LEU92:CD1",
+        "ligand_atom": "25V:C3",
+        "distance_A": 2.945
+      },
+      {
+        "protein_atom": "A:ASN140:OD1",
+        "ligand_atom": "25V:C10",
+        "distance_A": 3.289
+      },
+      {
+        "protein_atom": "A:LEU92:CD1",
+        "ligand_atom": "25V:C4",
+        "distance_A": 3.335
+      }
+    ],
+    "vdw_overlap_screen": {
+      "min_overlap_A": 0.25,
+      "pairs": [
+        {
+          "protein_atom": "A:LEU92:CD1",
+          "ligand_atom": "25V:C3",
+          "distance_A": 2.945,
+          "bondi_sum_A": 3.4,
+          "overlap_A": 0.455
+        },
+        {
+          "protein_atom": "A:LEU92:CD1",
+          "ligand_atom": "25V:O1",
+          "distance_A": 2.91,
+          "bondi_sum_A": 3.22,
+          "overlap_A": 0.31
+        }
+      ]
+    },
+    "nonprotein_neighbours": {
+      "het_group_min_distance_A": {
+        "EDO201": 10.627,
+        "DMS203": 3.064
+      },
+      "waters_within_3.5A": 4
+    }
   },
   "ligand_similarity": {
-    "morgan_ecfp4_tanimoto_4MEN_vs_4MEO": 0.08333333333333333
+    "morgan_ecfp4_tanimoto_4MEN_vs_4MEO": 0.08333333333333333,
+    "fingerprint": "Morgan radius 2, 2048 bits, heavy-atom graph (explicit H removed)",
+    "bit_counts": {
+      "on_bits_a": 38,
+      "on_bits_b": 40,
+      "common_bits": 6,
+      "union_bits": 72
+    }
   },
-  "generated_utc": "2026-10-14T18:23:19+00:00",
   "units": {
     "distance": "angstrom",
     "mass": "dalton",

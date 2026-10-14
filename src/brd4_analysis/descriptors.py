@@ -1,11 +1,32 @@
-"""Ligand physicochemical descriptors and chemical identity verification.
+"""Ligand physicochemical descriptors and CCD graph-consistency checks.
 
 Descriptors are computed from the Chemical Component Dictionary (CCD)
-ideal-coordinate structure, which carries authoritative bond orders and
-formal charges. The ligand atoms extracted from the experimental PDB file
-(X-ray: heavy atoms only, no explicit hydrogens) are then checked against
-the CCD molecule, primarily by full-graph template matching and secondly
-by heavy-element multiset comparison.
+ideal-coordinate definition of the deposited ligand, which carries the
+depositor-assigned bond orders and formal charges. The ligand atoms in the
+experimental PDB file (X-ray: heavy atoms only, no hydrogens) are checked
+for consistency with that CCD heavy-atom graph.
+
+What the consistency check does NOT establish: the CCD template supplies
+the bond orders, charges and hydrogen counts, so a match cannot confirm
+experimental protonation, tautomeric state or hydrogen positions, nor
+that the deposited chemical model is the species present in the crystal.
+
+Descriptor definitions (RDKit; values depend on the pinned version):
+  * molecular_weight  Descriptors.MolWt (average isotopic masses, Da)
+  * clogp             Crippen.MolLogP (Wildman-Crippen atom contributions)
+  * hbd / hba         Lipinski.NumHDonors / NumHAcceptors, i.e. the C++
+                      rdMolDescriptors.CalcNumHBD / CalcNumHBA SMARTS
+                      definitions. NOTE: CalcNumHBA changed between RDKit
+                      2025.03 and 2025.09: N-substituted aromatic
+                      (pyrrole-type) nitrogens are no longer counted
+                      (caffeine 6 -> 3; ligand 25K 5 -> 4).
+  * hbd_lipinski_nhoh / hba_lipinski_no
+                      Lipinski's original rule-of-five counts (N-H + O-H;
+                      N + O), CalcNumLipinskiHBD / CalcNumLipinskiHBA
+  * tpsa              rdMolDescriptors.CalcTPSA (Ertl 2000; N and O only)
+  * rotatable_bonds   Lipinski.NumRotatableBonds (RDKit default definition)
+  * morgan fingerprint  Morgan radius 2, 2048 bits (ECFP4-like), computed
+                      on the heavy-atom graph (explicit Hs removed)
 """
 
 from __future__ import annotations
@@ -69,6 +90,8 @@ def compute_descriptors(mol: Chem.Mol, comp_id: str) -> dict[str, Any]:
         "clogp": Crippen.MolLogP(mol),
         "hbd": Lipinski.NumHDonors(mol),
         "hba": Lipinski.NumHAcceptors(mol),
+        "hbd_lipinski_nhoh": rdMolDescriptors.CalcNumLipinskiHBD(mol),
+        "hba_lipinski_no": rdMolDescriptors.CalcNumLipinskiHBA(mol),
         "tpsa": rdMolDescriptors.CalcTPSA(mol),
         "rotatable_bonds": Lipinski.NumRotatableBonds(mol),
         "heavy_atom_count": Lipinski.HeavyAtomCount(mol),
@@ -88,13 +111,17 @@ def verify_pdb_ligand_identity(
     pdb_element_counts: Counter,
     ccd_mol: Chem.Mol,
 ) -> dict[str, Any]:
-    """Check the PDB-extracted ligand atoms against the CCD molecule.
+    """Check the PDB ligand heavy atoms for consistency with the CCD graph.
 
     Returns a dict with ``level``:
-      * ``smiles_match``  — template-assigned PDB ligand gives the same
-        canonical isomeric SMILES as the CCD molecule (strongest check);
+      * ``smiles_match``  — after CCD-template bond-order assignment, the
+        PDB ligand graph gives the same canonical isomeric SMILES as the
+        CCD molecule, i.e. the deposited heavy-atom connectivity is
+        consistent with the CCD definition. Bond orders, charges and H
+        counts come from the template, so this is graph consistency, not
+        independent evidence of protonation, tautomer or H positions;
       * ``formula_match`` — heavy-element multisets agree but template
-        assignment failed (weaker; recorded as reduced confidence);
+        assignment failed;
       * ``mismatch``      — element counts disagree.
     """
     ccd_counts = mol_element_counts(ccd_mol, heavy_only=True)
@@ -127,6 +154,15 @@ def verify_pdb_ligand_identity(
     return result
 
 
-def tanimoto_morgan(mol_a: Chem.Mol, mol_b: Chem.Mol) -> float:
-    """ECFP4 (Morgan r=2, 2048-bit) Tanimoto between two ligands."""
-    return DataStructs.TanimotoSimilarity(morgan_fingerprint(mol_a), morgan_fingerprint(mol_b))
+def tanimoto_morgan(mol_a: Chem.Mol, mol_b: Chem.Mol) -> dict[str, Any]:
+    """Morgan r=2, 2048-bit Tanimoto between two heavy-atom-graph ligands,
+    with the bit counts that define it (common / union)."""
+    fa, fb = morgan_fingerprint(mol_a), morgan_fingerprint(mol_b)
+    a, b = set(fa.GetOnBits()), set(fb.GetOnBits())
+    return {
+        "tanimoto": DataStructs.TanimotoSimilarity(fa, fb),
+        "on_bits_a": len(a),
+        "on_bits_b": len(b),
+        "common_bits": len(a & b),
+        "union_bits": len(a | b),
+    }

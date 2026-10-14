@@ -1,9 +1,7 @@
-"""Descriptor and ligand-identity tests.
+"""Descriptor sanity and CCD graph-consistency tests.
 
-Reference values for the CCD molecules are regression constants captured
-from the pipeline run on 2026-10-14; they verify that the parsed chemistry
-(bond orders, charges, tautomeric state) is stable, not that the numbers
-are 'correct' in an absolute sense.
+These are plausibility checks. Exact pinned values live in
+test_regression.py.
 """
 
 from collections import Counter
@@ -30,9 +28,10 @@ def test_caffeine_reference_descriptors():
     d = compute_descriptors(mol, "CFF")
     assert d["molecular_weight"] == pytest.approx(194.19, abs=0.05)
     assert d["hbd"] == 0
-    # RDKit's SMARTS-based HAcceptor definition excludes imide/amide-type
-    # carbonyl oxygens, so caffeine gives 3 rather than the naive N+O=6.
+    # CalcNumHBA (RDKit >= 2025.09): 2 carbonyl O + imidazole N3 = 3; the
+    # N-methylated aromatic nitrogens are not counted. Lipinski N+O = 6.
     assert d["hba"] == 3
+    assert d["hba_lipinski_no"] == 6
     assert d["tpsa"] == pytest.approx(61.82, abs=0.5)
 
 
@@ -40,7 +39,7 @@ def test_caffeine_reference_descriptors():
     "pdb_id,comp_id",
     [("4MEN", "25K"), ("4MEO", "25V")],
 )
-def test_ccd_descriptors_regression(data_dir, pdb_id, comp_id):
+def test_ccd_descriptors_plausible(data_dir, pdb_id, comp_id):
     mol = load_ccd_mol(data_dir / "ccd" / f"{comp_id}_ideal.sdf")
     d = compute_descriptors(mol, comp_id)
     assert d["heavy_atom_count"] > 0

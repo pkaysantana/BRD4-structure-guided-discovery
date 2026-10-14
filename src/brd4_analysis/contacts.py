@@ -92,6 +92,36 @@ def contact_atom_pairs(entry: ParsedEntry, threshold: float) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+# Bondi (1964) van der Waals radii, Angstrom.
+BONDI_RADII_A: dict[str, float] = {"C": 1.70, "N": 1.55, "O": 1.52, "S": 1.80}
+VDW_OVERLAP_SCREEN_A = 0.25
+
+
+def vdw_overlaps(
+    entry: ParsedEntry, min_overlap: float = VDW_OVERLAP_SCREEN_A
+) -> pd.DataFrame:
+    """Protein-ligand heavy-atom pairs closer than the sum of their Bondi
+    radii by at least ``min_overlap`` Angstrom, restricted to pairs that
+    involve at least one carbon. N/O-N/O pairs are excluded because short
+    polar distances are expected for hydrogen-bond geometry.
+
+    A purely geometric screen for contacts that deserve inspection against
+    the electron density / validation report. It is not a clash score
+    (no hydrogens, no restraint model) and implies no interaction energy.
+    """
+    pairs = contact_atom_pairs(entry, 2 * max(BONDI_RADII_A.values()))
+    rows = []
+    for rec in pairs.to_dict(orient="records"):
+        ep, el = rec["protein_element"], rec["ligand_element"]
+        if "C" not in (ep, el) or ep not in BONDI_RADII_A or el not in BONDI_RADII_A:
+            continue
+        overlap = BONDI_RADII_A[ep] + BONDI_RADII_A[el] - rec["distance_A"]
+        if overlap >= min_overlap:
+            rows.append(rec | {"bondi_sum_A": round(BONDI_RADII_A[ep] + BONDI_RADII_A[el], 2), "overlap_A": round(overlap, 3)})
+    cols = list(pairs.columns) + ["bondi_sum_A", "overlap_A"]
+    return pd.DataFrame(rows, columns=cols).sort_values("overlap_A", ascending=False, ignore_index=True)
+
+
 def threshold_counts(contacts_df: pd.DataFrame) -> pd.DataFrame:
     """Number of distinct contacting residues at each threshold."""
     rows = []
