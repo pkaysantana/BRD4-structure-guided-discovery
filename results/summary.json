@@ -332,7 +332,7 @@
   "ligand_similarity": {
     "morgan_ecfp4_tanimoto_4MEN_vs_4MEO": 0.08333333333333333
   },
-  "generated_utc": "2026-10-14T18:18:37+00:00",
+  "generated_utc": "2026-10-14T18:23:19+00:00",
   "units": {
     "distance": "angstrom",
     "mass": "dalton",

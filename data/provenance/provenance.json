@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_utc": "2026-10-14T18:13:38+00:00",
+  "generated_utc": "2026-10-14T18:23:18+00:00",
   "generator": {
     "package": "brd4-analysis",
     "python": "3.12.10",
@@ -11,7 +11,7 @@
       "pdb_file": {
         "path": "C:\\Users\\LLR User\\BRD4\\BRD4-structure-guided-discovery\\data\\raw\\4MEN.pdb",
         "url": "https://files.rcsb.org/download/4MEN.pdb",
-        "retrieved_utc": "2026-10-14T18:13:33+00:00",
+        "retrieved_utc": "2026-10-14T18:23:14+00:00",
         "sha256": "a1b21bdc30365fb0ca905a6f9f00cc5955e3b382e6b726c02e4a2162be55b6a0",
         "bytes": 222993,
         "header_deposition_date": "27-AUG-13",
@@ -22,7 +22,7 @@
       "entry_metadata": {
         "path": "C:\\Users\\LLR User\\BRD4\\BRD4-structure-guided-discovery\\data\\raw\\4MEN_entry.json",
         "url": "https://data.rcsb.org/rest/v1/core/entry/4MEN",
-        "retrieved_utc": "2026-10-14T18:13:34+00:00",
+        "retrieved_utc": "2026-10-14T18:23:15+00:00",
         "sha256": "0ab358f1c41ae1008405ac3613aab027d7a625cbfe3e44a1a3073ddf8c7cc29b",
         "bytes": 17512,
         "title": "Crystal Structure of the first bromodomain of human BRD4 in complex with a 5-methyl-triazolopyrimidine ligand",
@@ -35,7 +35,7 @@
       "ligand_ccd_ideal_sdf": {
         "path": "C:\\Users\\LLR User\\BRD4\\BRD4-structure-guided-discovery\\data\\ccd\\25K_ideal.sdf",
         "url": "https://files.rcsb.org/ligands/download/25K_ideal.sdf",
-        "retrieved_utc": "2026-10-14T18:13:35+00:00",
+        "retrieved_utc": "2026-10-14T18:23:15+00:00",
         "sha256": "2e978f1ec28868bcb8595e0001dd7964e8dc196a6f8a236a6c0dc6e3e48eb81b",
         "bytes": 2632
       }
@@ -44,7 +44,7 @@
       "pdb_file": {
         "path": "C:\\Users\\LLR User\\BRD4\\BRD4-structure-guided-discovery\\data\\raw\\4MEO.pdb",
         "url": "https://files.rcsb.org/download/4MEO.pdb",
-        "retrieved_utc": "2026-10-14T18:13:36+00:00",
+        "retrieved_utc": "2026-10-14T18:23:16+00:00",
         "sha256": "16f7df00cb65a5658c5e3bbb97458327ce73a27993b7304f035753215fa1b3de",
         "bytes": 224613,
         "header_deposition_date": "27-AUG-13",
@@ -55,7 +55,7 @@
       "entry_metadata": {
         "path": "C:\\Users\\LLR User\\BRD4\\BRD4-structure-guided-discovery\\data\\raw\\4MEO_entry.json",
         "url": "https://data.rcsb.org/rest/v1/core/entry/4MEO",
-        "retrieved_utc": "2026-10-14T18:13:37+00:00",
+        "retrieved_utc": "2026-10-14T18:23:17+00:00",
         "sha256": "6c47f4fb65484bbd3d87d835096a5ae82d31f5fb45533fd2813af4cd71e18cd0",
         "bytes": 17292,
         "title": "Crystal Structure of the first bromodomain of human BRD4 in complex with a 2-methyl-quinoline ligand",
@@ -68,7 +68,7 @@
       "ligand_ccd_ideal_sdf": {
         "path": "C:\\Users\\LLR User\\BRD4\\BRD4-structure-guided-discovery\\data\\ccd\\25V_ideal.sdf",
         "url": "https://files.rcsb.org/ligands/download/25V_ideal.sdf",
-        "retrieved_utc": "2026-10-14T18:13:38+00:00",
+        "retrieved_utc": "2026-10-14T18:23:18+00:00",
         "sha256": "18482eef7c8936325b4ce3455b219af3eb679c503f36145ba6f623f0eec31ef0",
         "bytes": 2736
       }

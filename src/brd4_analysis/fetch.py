@@ -128,5 +128,6 @@ def fetch_all(data_dir: Path = DEFAULT_DATA_DIR) -> Path:
     }
     out = data_dir / "provenance" / "provenance.json"
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(provenance, indent=2) + "\n")
+    # write_bytes: deterministic LF bytes regardless of platform newline rules
+    out.write_bytes((json.dumps(provenance, indent=2) + "\n").encode("utf-8"))
     return out

@@ -149,5 +149,5 @@ def run_analysis(
 
     out = results_dir / "summary.json"
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(summaries, indent=2) + "\n")
+    out.write_bytes((json.dumps(summaries, indent=2) + "\n").encode("utf-8"))
     return out
