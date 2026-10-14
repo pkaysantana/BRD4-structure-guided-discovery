@@ -1,0 +1,3 @@
+# Preserve raw data byte-for-byte so SHA-256 checksums in
+# data/provenance/provenance.json remain valid after checkout on Windows.
+data/** -text
