@@ -1,0 +1,341 @@
+{
+  "4MEN": {
+    "pdb_id": "4MEN",
+    "ligand_component": "25K",
+    "n_models": 1,
+    "n_polymer_residues": 127,
+    "n_ligand_residues": 1,
+    "n_ligand_heavy_atoms": 20,
+    "n_water_residues": 192,
+    "solvent_other_het": [
+      "EDO"
+    ],
+    "identity_check": {
+      "pdb_heavy_element_counts": {
+        "C": 15,
+        "N": 5
+      },
+      "ccd_heavy_element_counts": {
+        "C": 15,
+        "N": 5
+      },
+      "formula_match": true,
+      "smiles_match": true,
+      "level": "smiles_match"
+    },
+    "descriptors": {
+      "component_id": "25K",
+      "ccd_formula": "C15H17N5",
+      "canonical_smiles": "Cc1ccc(CN(C)c2cc(C)nc3ncnn23)cc1",
+      "isomeric_smiles": "Cc1ccc(CN(C)c2cc(C)nc3ncnn23)cc1",
+      "inchikey": "JAEVUMCKPBRDAJ-UHFFFAOYSA-N",
+      "molecular_weight": 267.336,
+      "exact_mw": 267.148395544,
+      "clogp": 2.3775400000000007,
+      "hbd": 0,
+      "hba": 4,
+      "tpsa": 46.32,
+      "rotatable_bonds": 3,
+      "heavy_atom_count": 20,
+      "ring_count": 3,
+      "aromatic_ring_count": 3,
+      "fraction_csp3": 0.26666666666666666,
+      "formal_charge": 0,
+      "morgan_fp_radius": 2,
+      "morgan_fp_nbits": 2048,
+      "morgan_fp_onbits": [
+        4,
+        24,
+        43,
+        80,
+        235,
+        310,
+        348,
+        378,
+        405,
+        412,
+        460,
+        489,
+        507,
+        875,
+        881,
+        884,
+        935,
+        1014,
+        1057,
+        1101,
+        1123,
+        1147,
+        1163,
+        1380,
+        1388,
+        1452,
+        1520,
+        1722,
+        1731,
+        1750,
+        1754,
+        1800,
+        1823,
+        1852,
+        1855,
+        1873,
+        1920,
+        1997
+      ],
+      "maccs_fp_onbits": [
+        25,
+        38,
+        52,
+        65,
+        77,
+        79,
+        80,
+        83,
+        85,
+        86,
+        93,
+        94,
+        96,
+        98,
+        100,
+        101,
+        105,
+        106,
+        115,
+        120,
+        121,
+        122,
+        124,
+        125,
+        133,
+        135,
+        137,
+        141,
+        142,
+        145,
+        148,
+        149,
+        153,
+        155,
+        156,
+        158,
+        160,
+        161,
+        162,
+        163,
+        165
+      ]
+    },
+    "contact_thresholds_A": [
+      3.5,
+      4.0,
+      5.0
+    ],
+    "residues_per_threshold": {
+      "3.5": 5,
+      "4.0": 11,
+      "5.0": 13
+    },
+    "atom_pairs_within_max": 176,
+    "closest_residues": [
+      {
+        "residue": "A:ASN140",
+        "min_distance_A": 2.844
+      },
+      {
+        "residue": "A:PHE83",
+        "min_distance_A": 3.353
+      },
+      {
+        "residue": "A:TRP81",
+        "min_distance_A": 3.42
+      },
+      {
+        "residue": "A:LEU92",
+        "min_distance_A": 3.467
+      },
+      {
+        "residue": "A:PRO82",
+        "min_distance_A": 3.485
+      }
+    ]
+  },
+  "4MEO": {
+    "pdb_id": "4MEO",
+    "ligand_component": "25V",
+    "n_models": 1,
+    "n_polymer_residues": 127,
+    "n_ligand_residues": 1,
+    "n_ligand_heavy_atoms": 22,
+    "n_water_residues": 194,
+    "solvent_other_het": [
+      "DMS",
+      "EDO"
+    ],
+    "identity_check": {
+      "pdb_heavy_element_counts": {
+        "O": 2,
+        "C": 18,
+        "N": 2
+      },
+      "ccd_heavy_element_counts": {
+        "O": 2,
+        "C": 18,
+        "N": 2
+      },
+      "formula_match": true,
+      "smiles_match": true,
+      "level": "smiles_match"
+    },
+    "descriptors": {
+      "component_id": "25V",
+      "ccd_formula": "C18H16N2O2",
+      "canonical_smiles": "CC(=O)Nc1cccc(-c2cc(C)[n+]([O-])c3ccccc23)c1",
+      "isomeric_smiles": "CC(=O)Nc1cccc(-c2cc(C)[n+]([O-])c3ccccc23)c1",
+      "inchikey": "YSGOTUAMXVUKOD-UHFFFAOYSA-N",
+      "molecular_weight": 292.338,
+      "exact_mw": 292.121177752,
+      "clogp": 3.407020000000002,
+      "hbd": 1,
+      "hba": 2,
+      "tpsa": 56.040000000000006,
+      "rotatable_bonds": 2,
+      "heavy_atom_count": 22,
+      "ring_count": 3,
+      "aromatic_ring_count": 3,
+      "fraction_csp3": 0.1111111111111111,
+      "formal_charge": 0,
+      "morgan_fp_radius": 2,
+      "morgan_fp_nbits": 2048,
+      "morgan_fp_onbits": [
+        184,
+        191,
+        207,
+        245,
+        343,
+        352,
+        463,
+        530,
+        650,
+        703,
+        715,
+        736,
+        748,
+        807,
+        833,
+        849,
+        875,
+        957,
+        973,
+        983,
+        1017,
+        1039,
+        1057,
+        1088,
+        1152,
+        1160,
+        1199,
+        1314,
+        1347,
+        1357,
+        1380,
+        1457,
+        1573,
+        1612,
+        1722,
+        1750,
+        1816,
+        1873,
+        1917,
+        1924
+      ],
+      "maccs_fp_onbits": [
+        13,
+        24,
+        49,
+        62,
+        65,
+        71,
+        75,
+        92,
+        94,
+        98,
+        101,
+        102,
+        105,
+        110,
+        113,
+        117,
+        121,
+        122,
+        124,
+        125,
+        127,
+        133,
+        135,
+        137,
+        142,
+        143,
+        144,
+        145,
+        148,
+        149,
+        150,
+        151,
+        154,
+        156,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165
+      ]
+    },
+    "contact_thresholds_A": [
+      3.5,
+      4.0,
+      5.0
+    ],
+    "residues_per_threshold": {
+      "3.5": 5,
+      "4.0": 11,
+      "5.0": 14
+    },
+    "atom_pairs_within_max": 215,
+    "closest_residues": [
+      {
+        "residue": "A:ASP88",
+        "min_distance_A": 2.67
+      },
+      {
+        "residue": "A:ASN140",
+        "min_distance_A": 2.881
+      },
+      {
+        "residue": "A:LEU92",
+        "min_distance_A": 2.91
+      },
+      {
+        "residue": "A:TRP81",
+        "min_distance_A": 3.34
+      },
+      {
+        "residue": "A:VAL87",
+        "min_distance_A": 3.452
+      }
+    ]
+  },
+  "ligand_similarity": {
+    "morgan_ecfp4_tanimoto_4MEN_vs_4MEO": 0.08333333333333333
+  },
+  "generated_utc": "2026-10-14T18:18:37+00:00",
+  "units": {
+    "distance": "angstrom",
+    "mass": "dalton",
+    "tpsa": "angstrom^2"
+  }
+}
