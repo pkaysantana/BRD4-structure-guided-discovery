@@ -310,14 +310,14 @@ def score_prediction(config: dict, path: Path) -> dict:
 
 def analyse_run(run: Path) -> Path:
     """Only evaluates the sole planned output; does not search for a better pose."""
+    from brd4_analysis.phase2.runtime import load_runtime_manifest
+
     run = Path(run).resolve()
     config = verify_run(run)
     analysis_packages = {p: version(p) for p in ["rdkit", "numpy", "biopython"]}
     if analysis_packages != read_json(run / "manifest.json")["packages"]:
         raise ValueError("Use the frozen Phase 1 analysis environment, separate from the Boltz runtime")
-    runtime = read_json(run / "runtime.json")
-    if runtime["prepared_manifest_sha256"] != sha256(run / "manifest.json"):
-        raise ValueError("Runtime provenance belongs to a different prepared experiment")
+    load_runtime_manifest(run, config)
     folder = run / "outputs" / "boltz_results_4men" / "predictions" / "4men"
     prediction = folder / "4men_model_0.cif"
     if sorted(folder.glob("4men_model_*.cif")) != [prediction]:
