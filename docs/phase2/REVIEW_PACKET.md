@@ -1,5 +1,11 @@
 # Phase 2 review packet
 
+**Historical preparation packet.** Phase 1 has since been verified as
+merged on `main` at `d0b9f63`, including `cba7549` and its successful
+Windows/Ubuntu CI. See [PR_REVIEW.md](PR_REVIEW.md) for the current Phase 2
+review scope and validation. The dated recommendations below record the
+earlier preparation stage; they do not request reverting the merge.
+
 Prepared on 15 October 2026 for the Lilly AI for Chemistry interview on
 Monday 19 October 2026 at 11:30 am. **No GPU job or Boltz prediction has
 run; no model weights have been installed or downloaded.**

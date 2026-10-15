@@ -1,5 +1,11 @@
 # Phase 1 merge recommendation
 
+**Historical review, now completed.** GitHub confirms PR #1 merged at
+`d0b9f63c53fc1aff5d29273191ee940a01e111be`, containing `cba7549` and both
+successful CI jobs. Its merge tree matches the reviewed Phase 1 head.
+The recommendations below are preserved as history; current Phase 2
+status is in [PR_REVIEW.md](PR_REVIEW.md).
+
 **The Phase 1 correction is ready locally; do not merge without user
 approval and native Linux CI.** The scientific framing is acceptable as a
 baseline of deposited models. The explicit CSV fix preserves the existing

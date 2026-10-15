@@ -10,10 +10,11 @@ geometry at 3.5 / 4.0 / 5.0 Å. The scientific report, including the
 unresolved 4MEO ligand-identity question, is in `docs/REPORT.md`.
 
 **Phase 2 preparation** adds an offline, controlled Boltz-2 pilot harness.
-Start with [`docs/phase2/REVIEW_PACKET.md`](docs/phase2/REVIEW_PACKET.md)
-for the merge recommendation, research corrections, validation, frozen
-single-run specification and resource limits. Model downloads and GPU
-execution await user review; no predictions have been generated.
+Start with [`docs/phase2/PR_REVIEW.md`](docs/phase2/PR_REVIEW.md)
+for the current review scope, validation and execution gates. Phase 1 is
+merged on `main` at `d0b9f63`; its calculations and results are preserved.
+Model downloads and GPU execution await user review; no predictions have
+been generated.
 The primary condition uses a cached full MSA; the no-MSA configuration is
 an optional smoke test. See the review packet for the pending MSA-input gate.
 

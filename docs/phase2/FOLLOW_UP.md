@@ -1,5 +1,10 @@
 # Follow-up and final preparation
 
+**Historical snapshot before Phase 1 was merged.** PR #1 is now merged
+at `d0b9f63`. The current Phase 2 review entry point is
+[PR_REVIEW.md](PR_REVIEW.md). Branch/publishing statements below describe
+the earlier checkpoint.
+
 15 October 2026. Local work is ready for review. No push, merge, CI
 dispatch, MSA search, model-weight download or GPU inference was performed.
 
