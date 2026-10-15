@@ -372,6 +372,35 @@ def test_query_only_alignment_cannot_masquerade_as_primary(local_msa_fixture):
         validate_config(primary)
 
 
+@pytest.mark.parametrize("padding", ["-", "X", "insertion-"])
+def test_non_hit_rows_cannot_make_primary_preparable(tmp_path, local_msa_fixture, padding):
+    primary, msa = local_msa_fixture
+    query = primary["protein"]["sequence"]
+    msa.write_bytes(f">query\n{query}\n>synthetic_padding_only\n{padding * len(query)}\n".encode())
+    primary["msa"]["file"]["sha256"] = sha256(msa)
+    config_path = tmp_path / "padding.json"
+    config_path.write_text(json.dumps(primary), encoding="utf-8")
+    with pytest.raises(ValueError, match="at least one alignment hit"):
+        prepare(config_path, tmp_path / "not_prepared")
+    assert not (tmp_path / "not_prepared").exists()
+
+
+@pytest.mark.parametrize("row", ["AC", "ACDE", "AC1", "A.D"])
+def test_malformed_alignment_rows_remain_rejected(tmp_path, row):
+    msa = tmp_path / "malformed.a3m"
+    msa.write_bytes(f">query\nACD\n>synthetic\n{row}\n".encode())
+    with pytest.raises(ValueError, match="A3M"):
+        validate_a3m(msa, "ACD")
+
+
+def test_informative_alignment_preserves_lowercase_insertions_and_padding(tmp_path):
+    msa = tmp_path / "valid.a3m"
+    msa.write_bytes(b">query\nACD\n>padding\n---\n>synthetic_informative\nAcd-D\n")
+    assert validate_a3m(msa, "ACD") == 3
+    with pytest.raises(ValueError, match="at least one alignment hit"):
+        validate_a3m(msa, "ACD", max_records=2)
+
+
 def test_plan_mode_does_not_ignore_a_changed_pinned_alignment(local_msa_fixture):
     primary, msa = local_msa_fixture
     msa.write_bytes(msa.read_bytes() + b"\n")

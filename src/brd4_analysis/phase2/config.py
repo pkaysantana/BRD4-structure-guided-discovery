@@ -12,6 +12,7 @@ from brd4_analysis.constants import PROJECT_ROOT
 
 BOLTZ_VERSION = "2.2.1"
 RDKIT_VERSION = "2026.3.6"
+MAX_MSA_SEQS = 8192
 SOURCE_DIR = PROJECT_ROOT / "data" / "phase2" / "sources"
 SEQUENCE = (
     "SMNPPPPETSNPNKPKRQTNQLQYLLRVVLKTLWKHQFAWPFQQPVDAVKLNLPDYYKIIKTPMDM"
@@ -84,7 +85,15 @@ def source_path(spec: dict, root: Path = PROJECT_ROOT, *, allow_pending_hash: bo
     return resolved
 
 
-def validate_a3m(path: Path, sequence: str) -> int:
+def validate_a3m(path: Path, sequence: str, max_records: int = MAX_MSA_SEQS) -> int:
+    """Validate aligned records and require residue information beyond the query.
+
+    Lowercase insertions do not occupy aligned columns or establish a hit.
+    A hit must occur within the prefix consumed under the declared MSA limit.
+    This structural check is not independent evidence of homology.
+    """
+    if type(max_records) is not int or max_records < 2:
+        raise ValueError("MSA record limit must include the query and a hit")
     records, current = [], None
     for line in path.read_text(encoding="utf-8").splitlines():
         if line.startswith(">"):
@@ -99,12 +108,20 @@ def validate_a3m(path: Path, sequence: str) -> int:
         records.append("".join(current))
     if not records or records[0] != sequence:
         raise ValueError("A3M first sequence must exactly match the full 127-residue query")
-    for record in records:
+    has_alignment_hit = False
+    for index, record in enumerate(records):
         if not re.fullmatch(r"[A-Za-z-]+", record):
             raise ValueError("Invalid A3M characters")
         aligned = "".join(c for c in record if not c.islower())
         if len(aligned) != len(sequence):
             raise ValueError("A3M aligned length differs from query")
+        if 0 < index < max_records and any(c in "ACDEFGHIKLMNPQRSTVWY" for c in aligned):
+            has_alignment_hit = True
+    if not has_alignment_hit:
+        raise ValueError(
+            "The primary MSA requires the query and at least one alignment hit "
+            "with aligned non-gap amino-acid residues"
+        )
     return len(records)
 
 
@@ -166,8 +183,7 @@ def validate_config(
                 raise ValueError("MSA provenance is pending; record its origin before preparation")
         msa_path = source_path(msa["file"], root, allow_pending_hash=allow_pending_msa)
         if msa["file"]["sha256"] is not None:
-            if validate_a3m(msa_path, protein["sequence"]) < 2:
-                raise ValueError("The primary MSA requires the query and at least one alignment hit")
+            validate_a3m(msa_path, protein["sequence"])
     else:
         raise ValueError("Only explicit single_sequence or pinned local_a3m is supported; no live server")
     boltz = config["boltz"]
@@ -185,7 +201,7 @@ def validate_config(
         raise ValueError("Seed must be a uint32")
     if boltz["diffusion_samples"] != 1 or boltz["max_parallel_samples"] != 1:
         raise ValueError("This pilot specification supports only one sample in one seed")
-    if boltz["max_msa_seqs"] != 8192:
+    if boltz["max_msa_seqs"] != MAX_MSA_SEQS:
         raise ValueError("Keep the upstream 8192-sequence MSA limit; a depth ablation is a separate experiment")
     positive(boltz["recycling_steps"], "recycling_steps", 3)
     positive(boltz["sampling_steps"], "sampling_steps", 200)
