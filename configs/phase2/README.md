@@ -6,7 +6,9 @@
   can inspect this design offline; `validate` and `prepare` must fail until
   the actual file and provenance are pinned.
 - `4men_smoke.json`: optional no-MSA smoke test only. The code records
-  that role explicitly in the prepared and analysed artefacts.
+  that role explicitly in the prepared and analysed artefacts. The current
+  ID is `4men_smoke_s20261019_v3`; v2 is preserved as a superseded record
+  after the terminal-OXT compatibility fix.
 
 Both use the same verified construct, neutral 25K graph, Boltz version,
 model asset pins, seed and sampling settings. Full MSA is the primary

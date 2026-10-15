@@ -33,11 +33,13 @@ def reference(config):
     return reference_data(validate_config(config))
 
 
-def synthetic_prediction(path, reference, ligand_shift=(0, 0, 0), omit=None):
+def synthetic_prediction(path, reference, ligand_shift=(0, 0, 0), omit=None, extra_atoms=()):
     """Known reference coordinates moved rigidly, in Boltz's actual naming scheme.
 
     This is a synthetic adapter control, never represented as a model prediction.
     Atom rows are reversed to ensure the adapter does not depend on file order.
+    Optional extra coordinates are synthetic coverage/contact-accounting probes,
+    not reconstructed experimental side chains.
     """
     rotation = np.array([[0., -1., 0.], [1., 0., 0.], [0., 0., 1.]])
     translation = np.array([12.3, -8.2, 4.7])
@@ -54,6 +56,10 @@ def synthetic_prediction(path, reference, ligand_shift=(0, 0, 0), omit=None):
             point = atom.coord.astype(float) @ rotation + translation
             rows.append(["ATOM", atom.element, name, item["resname"], "A",
                          item["input_index_1"], *point, ".", 1, 1])
+    for index, name, element, original_point in extra_atoms:
+        point = np.asarray(original_point) @ rotation + translation
+        rows.append(["ATOM", element, name, reference["mapping"][index - 1]["resname"],
+                     "A", index, *point, ".", 1, 1])
     mapping = graph_mappings(reference["mol"], reference["predicted_mol"])[0]
     pred_names = atom_names(reference["predicted_mol"])
     for ref_index, pred_index in enumerate(mapping):
@@ -208,7 +214,51 @@ def test_complete_adapter_scores_synthetic_rigid_transform_and_displaced_pose(tm
     assert not bad["harness_success"]
 
 
-@pytest.mark.parametrize("missing", [(99, "CA"), (99, "ND2")])
+def test_terminal_oxt_can_be_absent_from_boltz_canonical_output(tmp_path, config, reference):
+    # Boltz 2.2.1's canonical GLU atom set excludes OXT; 4MEN contains it.
+    oxt = reference["protein_by_residue"]["A:GLU168"]["OXT"].coord.astype(float)
+    assert np.linalg.norm(reference["ligand_xyz"] - oxt, axis=1).min() > 8
+    path = synthetic_prediction(tmp_path / "canonical_terminal_atoms.cif", reference, omit=(127, "OXT"))
+    score = score_prediction(config, path)
+    assert score["harness_success"]
+    assert score["ligand_pose"]["rmsd_A"] < 1e-10
+    assert score["contacts"]["4.0"]["precision"] == 1
+    assert score["contacts"]["4.0"]["recall"] == 1
+    assert score["atom_coverage"]["optional_terminal_atoms_missing"] == ["A:GLU168:OXT"]
+
+
+def test_canonical_atoms_missing_from_reference_are_reported_without_hiding_contacts(tmp_path, config, reference):
+    # All six atoms exist in Boltz's canonical residue sets but lack coordinates
+    # in 4MEN. Artificial 3.9 A contacts test accounting, not side-chain physics.
+    probe = reference["ligand_xyz"][reference["ligand_xyz"][:, 0].argmin()] - [3.9, 0, 0]
+    extras = [
+        (50, "CD", "C", probe), (50, "CE", "C", probe), (50, "NZ", "N", probe),
+        (82, "CD", "C", probe), (82, "NE2", "N", probe), (82, "OE1", "O", probe),
+    ]
+    path = synthetic_prediction(tmp_path / "full_canonical.cif", reference, omit=(127, "OXT"), extra_atoms=extras)
+    score = score_prediction(config, path)
+    assert score["ligand_pose"]["rmsd_A"] < 1e-10
+    assert set(score["atom_coverage"]["predicted_atoms_not_observed_in_reference"]) == {
+        "A:LYS91:CD", "A:LYS91:CE", "A:LYS91:NZ", "A:GLN123:CD", "A:GLN123:NE2", "A:GLN123:OE1",
+    }
+    assert score["contacts"]["4.0"]["false_positive"] == 2  # Original primary definition retained.
+    assert score["contacts"]["4.0"]["precision"] == pytest.approx(11 / 13)
+    assert score["contacts_reference_observed_atoms"]["4.0"]["precision"] == 1
+    assert score["contacts_reference_observed_atoms"]["4.0"]["recall"] == 1
+    assert score["geometry"]["valid"]
+
+
+@pytest.mark.parametrize("name,element", [("ZZ", "C"), ("NZ", "C")])
+def test_additional_atoms_require_a_valid_residue_template_and_element(tmp_path, config, reference, name, element):
+    path = synthetic_prediction(
+        tmp_path / "invalid_extra.cif", reference,
+        extra_atoms=[(50, name, element, reference["ligand_xyz"][0])],
+    )
+    with pytest.raises(ValueError, match="[Pp]rotein"):
+        score_prediction(config, path)
+
+
+@pytest.mark.parametrize("missing", [(99, "CA"), (99, "ND2"), (127, "O")])
 def test_adapter_rejects_missing_ca_or_contact_atom(tmp_path, config, reference, missing):
     path = synthetic_prediction(tmp_path / "incomplete.cif", reference, omit=missing)
     with pytest.raises(ValueError, match="Missing/extra"):

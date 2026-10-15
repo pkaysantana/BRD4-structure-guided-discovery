@@ -15,9 +15,10 @@ runtime checks prevent executing an unpinned input.
 
 The separate smoke configuration is
 [`configs/phase2/4men_smoke.json`](../../configs/phase2/4men_smoke.json),
-with prepared bundle `experiments/phase2/4men_smoke_s20261019_v2/`.
-The previous `4men_single_sequence_s20261019` bundle is an unchanged,
-superseded preparation record. No bundle contains model predictions.
+with prepared bundle `experiments/phase2/4men_smoke_s20261019_v3/`.
+The earlier `4men_single_sequence_s20261019` and v2 smoke bundles are
+unchanged, superseded preparation records. V3 records the reviewed
+terminal-OXT compatibility correction. No bundle contains model predictions.
 See [the reconciliation](PROTOCOL_RECONCILIATION.md) for every material
 departure from the supplied protocol. The library has no model-download,
 MSA-search, prediction-launch or seed-campaign command.
@@ -145,7 +146,23 @@ neither unchanged peak VRAM nor a fixed runtime ratio is assumed.
 ## Metrics fixed before looking at predictions
 
 **Protein-aligned, symmetry-aware ligand RMSD.** Require the entire
-reference ligand graph and all expected protein heavy atoms. Align the
+reference ligand graph and all expected protein heavy atoms except
+optional `OXT` at the final residue. Boltz 2.2.1's canonical standard
+residue atom set omits this terminal oxygen; 4MEN models it on GLU168.
+Any omission is explicitly reported in `atom_coverage`. All Cα, backbone
+`O` and other expected heavy atoms remain required. The reference OXT is
+outside the 8 Å pocket and all registered contact cutoffs; reference
+coordinates and metrics are retained.
+
+The reference also lacks three distal side-chain atoms at Lys91 and three
+at Gln123. A complete prediction can legitimately include these atoms.
+They are accepted only if their names and elements match a residue-type
+template assembled from other occurrences in the pinned reference, and
+are listed in `atom_coverage`. That template inventory was independently
+checked against Boltz 2.2.1's canonical atom lists. No missing experimental
+coordinates are invented. These atom-name/element templates are used for
+evaluation only; the model input still contains no structural template or
+reference coordinates. Align the
 predicted protein onto the reference using an unweighted proper Kabsch
 rotation/translation of Cα atoms at author residues 44–168. Reflections,
 missing residues, guessed correspondences and fit-set selection are
@@ -186,6 +203,17 @@ An empty predicted set against a nonempty reference scores zero for both.
 An empty reference is unscorable; empty/empty is never a perfect score.
 This is residue-level contact recovery, not atom-pair or hydrogen-bond
 recovery. The 4MEN reference contains 5 / 11 / 13 residues at 3.5 / 4 / 5 Å.
+
+The primary contact metric retains **all predicted protein heavy atoms**,
+including valid atoms at partially resolved reference side chains; its
+definition and thresholds have not changed. A separate
+`contacts_reference_observed_atoms` diagnostic restricts the prediction
+to atoms with reference coordinates. Interpret any difference in the
+context of the unresolved reference side chains. A primary “false
+positive” means absent from the deposited-model contact set, not proof
+of a physically wrong interaction. Geometry/clash checks still use all
+predicted protein heavy atoms. The diagnostic never selects or replaces
+the primary acceptance score.
 
 **Geometry screen.** Check finite coordinates, exact atom coverage and
 graph/element consistency before metrics. Evaluate bond lengths and

@@ -26,6 +26,10 @@ inference, MSA acquisition or GPU hosting.
    without a ligand fit, residue contact precision/recall and a limited
    heavy-atom geometry screen. These are operational metrics, not
    binding-affinity or physical-stability estimates.
+   Atom-coverage diagnostics distinguish optional terminal OXT from valid
+   predicted side-chain atoms that lack reference coordinates. The
+   primary contact metric is unchanged; a separate reference-observed-atom
+   diagnostic exposes the effect of incomplete experimental side chains.
 3. `runtime.py`: a future, explicit Linux-host provenance check that
    verifies existing model assets and records the environment. It does
    not install packages, download assets or invoke Boltz.
@@ -39,7 +43,7 @@ inference, MSA acquisition or GPU hosting.
    inputs and upstream source/metadata snapshots. Upstream Python excerpts
    are passive `.txt` evidence, not imported execution modules.
 6. `configs/phase2/` and `experiments/phase2/`: the blocked primary design,
-   an unexecuted smoke bundle, and a clearly labelled superseded bundle.
+   an unexecuted smoke bundle, and clearly labelled superseded bundles.
    Existing experiment records are preserved rather than overwritten.
 
 The current protocol is [PROTOCOL.md](PROTOCOL.md), with explicit
@@ -71,13 +75,44 @@ CI workflow or golden result is changed by this PR. The only existing
 Historical Phase 1 review receipts and the old writer patch are retained
 as evidence, not reapplied changes.
 
-The **full offline suite passes 84 tests** after integration:
-45 Phase 1 tests, 31 Phase 2 tests and eight synthetic preflight tests.
-The original 27 Phase 2 tests are retained within those 31.
+The integration checkpoint passed **84 tests**. After independent Codex
+review and the canonical-atom compatibility correction below, the full
+offline suite passes **89 tests**: 45 Phase 1 tests, 36 Phase 2 tests and
+eight synthetic preflight tests. The original 27 Phase 2 tests remain.
 GPU-preflight tests block subprocess calls and Torch imports; they do not
 call the hardware collector. No GPU diagnostics or inference were needed
-for this result. The integration receipt is
-[`main_integration.json`](../../data/phase2/review/main_integration.json).
+for these results. The original integration receipt is
+[`main_integration.json`](../../data/phase2/review/main_integration.json);
+the correction and latest validation are recorded in
+[`codex_atom_coverage.json`](../../data/phase2/review/codex_atom_coverage.json).
+
+## Independent review correction
+
+Codex identified that the reference contains terminal GLU168 OXT, while
+Boltz 2.2.1's canonical standard-residue output omits it. A regression
+reproduced the rejection before the fix. Upstream atom lists were then
+checked against all 127 reference residues: Lys91 and Gln123 also have
+unresolved distal atoms that a complete prediction includes.
+
+The adapter now permits missing OXT only at the terminus, accepts additional
+atoms only through the pinned reference's residue-type name/element
+templates, and reports both coverage differences. The templates were
+checked against the pinned upstream canonical sets. No experimental
+coordinates are invented. All other observed heavy atoms, including
+terminal backbone O, remain required.
+
+Primary contacts still use all predicted heavy atoms, with the original
+cutoffs and thresholds. The additional contact diagnostic is descriptive
+and cannot replace the primary acceptance score. Geometry uses all
+predicted atoms. Five added regression cases cover OXT omission, retained
+terminal-O requirements, canonical additional atoms/contact accounting,
+and rejection of unknown or wrongly typed extras.
+
+The new source policy is frozen in
+`experiments/phase2/4men_smoke_s20261019_v3/`. Previous bundles, including
+v2, are preserved unchanged as superseded preparation records. The
+primary full-MSA design remains blocked on real MSA input/provenance.
+Phase 1 and the three original Legion preflight files remain unchanged.
 
 ## Scientific and execution boundaries
 

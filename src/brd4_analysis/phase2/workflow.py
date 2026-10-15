@@ -215,6 +215,8 @@ def prepare(config_path: Path, output_root: Path = OUTPUT_ROOT) -> Path:
         "primary_pose": "one seed, one sample, model_0; no reference-guided selection",
         "rmsd": "proper Kabsch fit on all 125 matched protein CAs, then minimum ligand heavy-atom RMSD over exact graph isomorphisms; no ligand fit",
         "contact_unit": "unique mapped polymer residue; minimum heavy-atom distance <= cutoff; no waters, additives, or inferred H bonds",
+        "protein_atom_coverage": "all reference heavy atoms required except final-residue OXT; additional atoms must match a reference residue-type template and are reported",
+        "contact_reference_coverage": "primary contacts retain all predicted protein heavy atoms; a separate diagnostic uses only atoms observed in the reference",
         "success": "all declared thresholds AND geometry screen pass; interpret within the recorded experiment role",
         "confidence": "diagnostic only; no calibrated probability or acceptance threshold",
         "msa": config["msa"],
@@ -270,6 +272,13 @@ def score_prediction(config: dict, path: Path) -> dict:
         )
         for c in cutoffs
     }
+    matched_contacts = {
+        str(c): contact_scores(
+            contact_residues(by_residue, ref["ligand_xyz"], c),
+            contact_residues(pred["reference_matched_protein_by_residue"], pred["ligand_xyz"], c),
+        )
+        for c in cutoffs
+    }
     geometry = geometry_checks(
         ref["mol"], reordered_ligand, ref["ideal_xyz"],
         pred["protein_xyz"], pred["protein_elements"], config["metrics"]["geometry"],
@@ -286,12 +295,14 @@ def score_prediction(config: dict, path: Path) -> dict:
     }
     return {
         "experiment_role": experiment_role(config),
+        "atom_coverage": pred["atom_coverage"],
         "ligand_pose": pose, "protein_ca_rmsd_A": protein_rmsd,
         "protein_fit_CA_count": len(selected),
         "pocket_ca_rmsd_in_global_frame_A": rmsd(
             pred["ca"][pocket_indices] @ rotation + translation, ref["ca"][pocket_indices]
         ),
-        "contacts": contacts, "geometry": geometry,
+        "contacts": contacts, "contacts_reference_observed_atoms": matched_contacts,
+        "geometry": geometry,
         "acceptance_gates": gates, "harness_success": all(gates.values()),
         "interpretation": "Single-case pipeline control; not independent evidence of generalisation, affinity, or sample identity.",
     }

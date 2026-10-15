@@ -143,12 +143,26 @@ def reference_data(config: dict) -> dict:
     protein_by_residue = {
         residue_label(r): {a.name: a for a in r if is_heavy_atom(a)} for r in residues
     }
+    # Some 4MEN side chains are partially resolved. Other occurrences of the
+    # same standard residue type supply an atom/element template for accepting
+    # fully modelled predictions without inventing reference coordinates.
+    protein_atom_templates = {}
+    for row in mapping:
+        template = protein_atom_templates.setdefault(row["resname"], {})
+        for name, atom in protein_by_residue[row["reference_label"]].items():
+            if name == "OXT":
+                continue
+            element = atom_element(atom)
+            if name in template and template[name] != element:
+                raise ValueError("Inconsistent reference residue-type atom/element template")
+            template[name] = element
     return {
         "mapping": mapping, "mol": mol, "predicted_mol": predicted_mol,
         "ligand_xyz": coordinates([ligand_atoms[name].coord for name in atom_names(mol)]),
         "ideal_xyz": coordinates(mol.GetConformer().GetPositions()),
         "ca": coordinates([r["CA"].coord for r in residues]),
         "protein_by_residue": protein_by_residue,
+        "protein_atom_templates": protein_atom_templates,
         "descriptors": descriptors,
     }
 
@@ -157,7 +171,9 @@ def read_prediction(path: Path, reference: dict) -> dict:
     """Require one complete 127-residue protein and one 20-heavy-atom ligand.
 
     Polymer mapping uses label_seq_id (Boltz input index), never an inferred
-    constant offset or a proximity-based bond assignment.
+    constant offset or a proximity-based bond assignment. Only terminal OXT
+    is optional among observed reference atoms: Boltz 2.2.1 omits it.
+    Additional atoms must match a same-residue-type reference template.
     """
     data = MMCIF2Dict(str(path))
     fields = [
@@ -204,23 +220,42 @@ def read_prediction(path: Path, reference: dict) -> dict:
         raise ValueError("Missing/extra ligand atoms or unverified Boltz atom-name mapping")
     if any(ligand[a.GetProp("name")][1] != a.GetSymbol().upper() for a in model_mol.GetAtoms()):
         raise ValueError("Prediction ligand atom-name/element mismatch")
-    by_residue, elements, all_xyz, ca = {}, [], [], []
+    by_residue, matched_by_residue, elements, all_xyz, ca = {}, {}, [], [], []
+    optional_terminal_atoms_missing = []
+    predicted_atoms_not_observed_in_reference = []
     for item in reference["mapping"]:
         index, label = item["input_index_1"], item["reference_label"]
         atoms = protein[index]
         expected = reference["protein_by_residue"][label]
+        template = reference["protein_atom_templates"][item["resname"]]
+        optional = {"OXT"} if index == len(reference["mapping"]) else set()
+        required = set(expected) - optional
         extras = set(atoms) - set(expected)
-        if not set(expected) <= set(atoms) or (extras and not (index == 127 and extras == {"OXT"})):
+        if not required <= set(atoms) or not set(atoms) <= (set(template) | optional):
             raise ValueError(f"Missing/extra protein heavy atoms at input residue {index}")
-        if any(atoms[name][1] != atom_element(atom) for name, atom in expected.items()):
+        if any(
+            element != template.get(name, "O") for name, (_, element) in atoms.items()
+        ):
             raise ValueError("Protein atom-name/element mismatch")
+        optional_terminal_atoms_missing.extend(
+            f"{label}:{name}" for name in sorted((set(expected) - set(atoms)) & optional)
+        )
+        predicted_atoms_not_observed_in_reference.extend(f"{label}:{name}" for name in sorted(extras))
         points = coordinates([xyz for xyz, _ in atoms.values()])
         by_residue[label] = points
+        matched_by_residue[label] = coordinates([atoms[name][0] for name in expected if name in atoms])
         all_xyz.extend(points)
         elements.extend(element for _, element in atoms.values())
         ca.append(atoms["CA"][0])
     return {
         "ca": coordinates(ca), "protein_by_residue": by_residue,
+        "reference_matched_protein_by_residue": matched_by_residue,
         "protein_xyz": coordinates(all_xyz), "protein_elements": elements,
         "ligand_xyz": coordinates([ligand[name][0] for name in atom_names(model_mol)]),
+        "atom_coverage": {
+            "required_reference_protein_atoms_complete": True,
+            "ligand_heavy_atoms_complete": True,
+            "optional_terminal_atoms_missing": optional_terminal_atoms_missing,
+            "predicted_atoms_not_observed_in_reference": predicted_atoms_not_observed_in_reference,
+        },
     }
