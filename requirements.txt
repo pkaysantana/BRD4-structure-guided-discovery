@@ -1,0 +1,10 @@
+# Phase 1 baseline environment — pinned 2026-10-14.
+# All releases at least 7 days old at pin time (supply-chain hygiene).
+# Python 3.10+; developed on CPython 3.12.10 / Windows.
+rdkit==2026.3.6
+biopython==1.88
+numpy==2.5.3
+pandas==3.0.6
+matplotlib==3.11.2
+pytest==9.1.1
+requests==2.34.2

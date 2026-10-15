@@ -1,0 +1,3 @@
+pdb_id,residue,protein_atom,protein_element,ligand_atom,ligand_element,distance_A,bondi_sum_A,overlap_A
+4MEO,A:LEU92,A:LEU92:CD1,C,25V:C3,C,2.945,3.4,0.455
+4MEO,A:LEU92,A:LEU92:CD1,C,25V:O1,O,2.91,3.22,0.31

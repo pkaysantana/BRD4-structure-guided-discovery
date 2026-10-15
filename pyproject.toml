@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "brd4-analysis"
+version = "0.1.0"
+description = "Reproducible experimental baseline for BRD4-BD1 ligand complexes (PDB 4MEN, 4MEO)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
