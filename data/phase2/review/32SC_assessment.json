@@ -1,0 +1,43 @@
+{
+  "25K_vs_A1IGX_morgan": {
+    "common_bits": 10,
+    "on_bits_a": 38,
+    "on_bits_b": 36,
+    "tanimoto": 0.15625,
+    "union_bits": 64
+  },
+  "all_compared_coordinates_exactly_equal": true,
+  "all_protein_and_ligand_heavy_atoms_compared": 1081,
+  "citation_conflict": {
+    "32SC_PDBe_DOI": "10.1021/acs.jmedchem.4c01128",
+    "32SC_RCSB_and_mmcif_DOI": "10.1039/b508541a",
+    "9FWX_RCSB_DOI": "10.1021/acs.jmedchem.4c01128"
+  },
+  "decision": "not_an_independent_2026_case_use_earliest_public_complex_date_2024-08-07",
+  "entries": {
+    "32SC": {
+      "initial_release_date": "2026-08-05T00:00:00.000+00:00",
+      "resolution_A": [
+        1.25
+      ],
+      "sha256_mmcif": "690a1c2ea7aa831829fd784c61e0d3057ce94d130e26106989060281a15225eb",
+      "title": "CRYSTAL STRUCTURE OF BRD4-BD1 IN COMPLEX WITH COMPOUND 8"
+    },
+    "9FWX": {
+      "initial_release_date": "2024-08-07T00:00:00.000+00:00",
+      "resolution_A": [
+        1.25
+      ],
+      "sha256_mmcif": "fe6573175551f21de1ab54aa883e5e8d96de8e86ae8b29adf934fa5f3222efd9",
+      "title": "Crystal structure of BRD4 BD1 with MEN1404BS."
+    }
+  },
+  "graph_search": "A1IGX_exact_graph_search.json",
+  "ligand_component": "A1IGX",
+  "ligand_heavy_atoms_compared": 19,
+  "protein_CA_atoms_compared": 127,
+  "protein_CA_rmsd_A": 6.614925847513234e-15,
+  "same_named_ligand_rmsd_after_protein_fit_A": 5.665241711740359e-15,
+  "similarity_scope": "pairwise only, NOT maximum similarity to the pre-cutoff BET corpus",
+  "structural_cutoff_comparison": "2024-08-07 is after the report's 2023-06-01 PDB cutoff; checkpoint membership remains unverified"
+}

@@ -1,0 +1,29 @@
+{
+  "checked_utc": "2026-10-15T17:06:09.407606+00:00",
+  "method": "Windows execution with os.linesep patched to LF; explicit CRLF writer policy simulated via DataFrame.to_csv wrapper",
+  "native_Linux_run": false,
+  "original_Phase1_files_modified": false,
+  "results": {
+    "LF_default": {
+      "different_csv_files": [
+        "contacts_summary_4MEN.csv",
+        "contacts_summary_4MEO.csv",
+        "contact_pairs_4MEN.csv",
+        "contact_pairs_4MEO.csv",
+        "ligand_descriptors.csv",
+        "threshold_counts.csv",
+        "vdw_overlaps_4MEN.csv",
+        "vdw_overlaps_4MEO.csv"
+      ],
+      "report_text_identical": true,
+      "summary_byte_identical": true,
+      "table_contents_equal_ignoring_line_endings": true
+    },
+    "explicit_CRLF": {
+      "different_csv_files": [],
+      "report_text_identical": true,
+      "summary_byte_identical": true,
+      "table_contents_equal_ignoring_line_endings": true
+    }
+  }
+}

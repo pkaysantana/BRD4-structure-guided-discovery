@@ -1,0 +1,333 @@
+[
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": {
+      "4MEN": 1.81,
+      "4MEO": 1.72
+    },
+    "status": "deposited_metadata_rechecked",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "1.81",
+      "4MEO (compound 5? / 25V)": "1.72",
+      "metric": "Resolution (A)",
+      "source": "RCSB entry record"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": null,
+    "status": "external_or_author_computation_not_reproduced",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "0.163 / 0.219",
+      "4MEO (compound 5? / 25V)": "0.1653 / 0.2126",
+      "metric": "R-work / R-free (deposited)",
+      "source": "mmCIF _refine"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": null,
+    "status": "external_or_author_computation_not_reproduced",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "0.1699 / 0.2143",
+      "4MEO (compound 5? / 25V)": "0.1719 / 0.2217",
+      "metric": "R-work / R-free (PDBe recomputed, DCC)",
+      "source": "PDBe xray_refine_data_stats"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": null,
+    "status": "external_or_author_computation_not_reproduced",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "0.2065",
+      "4MEO (compound 5? / 25V)": "0.2072",
+      "metric": "R-free after PDB-REDO re-refinement",
+      "source": "PDB-REDO data.json"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": null,
+    "status": "external_or_author_computation_not_reproduced",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "1.57",
+      "4MEO (compound 5? / 25V)": "3.15",
+      "metric": "RSRZ outliers (%)",
+      "source": "PDBe global-percentiles"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": null,
+    "status": "external_or_author_computation_not_reproduced",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "67.16",
+      "4MEO (compound 5? / 25V)": "82.00",
+      "metric": "Geometry-quality percentile",
+      "source": "PDBe summary_quality_scores"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": null,
+    "status": "external_or_author_computation_not_reproduced",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "74.26",
+      "4MEO (compound 5? / 25V)": "56.76",
+      "metric": "Data-quality percentile",
+      "source": "PDBe summary_quality_scores"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": null,
+    "status": "external_or_author_computation_not_reproduced",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "0.953",
+      "4MEO (compound 5? / 25V)": "0.872",
+      "metric": "Ligand RSCC",
+      "source": "RCSB ligand quality score 2021"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": null,
+    "status": "external_or_author_computation_not_reproduced",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "0.055",
+      "4MEO (compound 5? / 25V)": "0.097",
+      "metric": "Ligand RSR",
+      "source": "RCSB ligand quality score 2021"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": null,
+    "status": "external_or_author_computation_not_reproduced",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "0.8376",
+      "4MEO (compound 5? / 25V)": "0.5062",
+      "metric": "Ligand fit ranking (percentile)",
+      "source": "RCSB ligand quality score 2021"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": null,
+    "status": "external_or_author_computation_not_reproduced",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "2",
+      "4MEO (compound 5? / 25V)": "4",
+      "metric": "Ligand intermolecular clashes",
+      "source": "RCSB ligand quality score 2021"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": {
+      "4MEN": 14.261,
+      "4MEO": 26.11090909090909
+    },
+    "status": "locally_reproduced_from_deposited_model",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "14.3",
+      "4MEO (compound 5? / 25V)": "26.1",
+      "metric": "Ligand mean B (A^2)",
+      "source": "deposited coordinates"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": {
+      "4MEN": [
+        1.0
+      ],
+      "4MEO": [
+        1.0
+      ]
+    },
+    "status": "locally_reproduced_from_deposited_model",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "1.00 (all atoms)",
+      "4MEO (compound 5? / 25V)": "1.00 (all atoms)",
+      "metric": "Ligand occupancy",
+      "source": "deposited coordinates"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": {
+      "4MEN": "C15H17N5",
+      "4MEO": "C18H16N2O2"
+    },
+    "status": "ccd_graph_calculation_reproduced",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "C15 H17 N5",
+      "4MEO (compound 5? / 25V)": "C18 H16 N2 O2",
+      "metric": "Deposited formula",
+      "source": "CCD 25K / 25V"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": null,
+    "status": "external_or_author_computation_not_reproduced",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "C15 H17 N5 (cpd 3)",
+      "4MEO (compound 5? / 25V)": "C18 H16 N2 O (cpd 5)",
+      "metric": "Formula of compound in paper text",
+      "source": "Vidler 2013 HRMS"
+    }
+  },
+  {
+    "interpretation": "Distances are geometry; no H-bond assignment or experimental sample identity established.",
+    "local_values": {
+      "4MEN": 2.8443995951840844,
+      "4MEO": 2.8812805159718606
+    },
+    "status": "locally_reproduced_from_deposited_model",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "25K N2...Asn140 ND2 2.84 A",
+      "4MEO (compound 5? / 25V)": "25V O(oxide)...Asn140 ND2 2.88 A",
+      "metric": "Key KAc-mimetic H-bond",
+      "source": "distance from coordinates"
+    }
+  },
+  {
+    "interpretation": "Distances are geometry; no H-bond assignment or experimental sample identity established.",
+    "local_values": {
+      "4MEN": 2.8238561765501804,
+      "4MEO": 3.030911509473494
+    },
+    "status": "locally_reproduced_from_deposited_model",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "25K N1...HOH316 2.82 A (B 6.2)",
+      "4MEO (compound 5? / 25V)": "25V O...HOH327 3.03 A (B 14.2)",
+      "metric": "Conserved-water contact",
+      "source": "distance from coordinates"
+    }
+  },
+  {
+    "interpretation": "Distances are geometry; no H-bond assignment or experimental sample identity established.",
+    "local_values": {
+      "4MEN": null,
+      "4MEO": 2.670128375575767
+    },
+    "status": "locally_reproduced_from_deposited_model",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "-",
+      "4MEO (compound 5? / 25V)": "25V O1...Asp88 N 2.67 A (backbone NH)",
+      "metric": "Additional polar contact",
+      "source": "distance from coordinates"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": {
+      "4MEN": null,
+      "4MEO": 1.3579703371159733
+    },
+    "status": "locally_reproduced_from_deposited_model",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "n/a",
+      "4MEO (compound 5? / 25V)": "1.358 A",
+      "metric": "N1-O distance (deposited)",
+      "source": "deposited coordinates"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": null,
+    "status": "external_or_author_computation_not_reproduced",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "n/a",
+      "4MEO (compound 5? / 25V)": "1.382 A",
+      "metric": "N1-O distance (PDB-REDO)",
+      "source": "PDB-REDO final model"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": {
+      "4MEN": null,
+      "4MEO": [
+        13.59,
+        34.52
+      ]
+    },
+    "status": "locally_reproduced_from_deposited_model",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "n/a",
+      "4MEO (compound 5? / 25V)": "13.6 / 34.5",
+      "metric": "B(N1) / B(O) deposited",
+      "source": "deposited coordinates"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": null,
+    "status": "external_or_author_computation_not_reproduced",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "n/a",
+      "4MEO (compound 5? / 25V)": "21.7 / 28.7",
+      "metric": "B(N1) / B(O) PDB-REDO",
+      "source": "PDB-REDO final model"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": null,
+    "status": "external_or_author_computation_not_reproduced",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "n/a",
+      "4MEO (compound 5? / 25V)": "3.44 sigma",
+      "metric": "2Fo-Fc at quinoline N1",
+      "source": "PDBe map, trilinear sample"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": null,
+    "status": "external_or_author_computation_not_reproduced",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "n/a",
+      "4MEO (compound 5? / 25V)": "1.55 sigma (local max 2.47)",
+      "metric": "2Fo-Fc at oxide O",
+      "source": "PDBe map, trilinear sample"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": null,
+    "status": "external_or_author_computation_not_reproduced",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "n/a",
+      "4MEO (compound 5? / 25V)": "-0.13 sigma",
+      "metric": "Fo-Fc at oxide O",
+      "source": "PDBe difference map"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": null,
+    "status": "external_or_author_computation_not_reproduced",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "n/a",
+      "4MEO (compound 5? / 25V)": "1.73 A",
+      "metric": "Positive-density centroid from N1 (0.9-2.8 A window)",
+      "source": "PDBe map profile"
+    }
+  },
+  {
+    "interpretation": "Model parameters and template chemistry do not establish the chemical species in the crystal.",
+    "local_values": null,
+    "status": "external_or_author_computation_not_reproduced",
+    "supplied": {
+      "4MEN (compound 3 / 25K)": "n/a",
+      "4MEO (compound 5? / 25V)": "1.358 A (deposited oxide) vs 2.14 A (paper water)",
+      "metric": "Candidate distances",
+      "source": "Vidler 2013 / coordinates"
+    }
+  }
+]

@@ -1,0 +1,86 @@
+{
+  "boltz": {
+    "affinity": false,
+    "cache_dir": "/workspace/boltz-cache-v2.2.1",
+    "constraints": [],
+    "diffusion_samples": 1,
+    "max_parallel_samples": 1,
+    "model": "boltz2",
+    "no_kernels": true,
+    "rdkit_version": "2026.3.6",
+    "recycling_steps": 3,
+    "sampling_steps": 200,
+    "seed": 20261019,
+    "step_scale": 1.5,
+    "templates": [],
+    "use_potentials": false,
+    "version": "2.2.1"
+  },
+  "experiment_id": "4men_single_sequence_s20261019",
+  "ligand": {
+    "ccd_id": "25K",
+    "chain_id": "B",
+    "expected_inchikey": "JAEVUMCKPBRDAJ-UHFFFAOYSA-N",
+    "smiles": "Cc1ccc(CN(C)c2cc(C)nc3ncnn23)cc1"
+  },
+  "metrics": {
+    "contact_cutoffs_A": [
+      3.5,
+      4.0,
+      5.0
+    ],
+    "geometry": {
+      "max_aromatic_plane_deviation_A": 0.15,
+      "max_bond_angle_error_deg": 30.0,
+      "max_bond_length_error_A": 0.25,
+      "max_protein_ligand_overlap_A": 0.8,
+      "min_nonbonded_vdw_ratio": 0.75
+    },
+    "max_ligand_rmsd_A": 2.0,
+    "max_protein_ca_rmsd_A": 2.0,
+    "min_contact_precision": 0.7,
+    "min_contact_recall": 0.7,
+    "pocket_cutoff_A": 8.0,
+    "primary_contact_cutoff_A": 4.0
+  },
+  "msa": {
+    "mode": "single_sequence"
+  },
+  "protein": {
+    "chain_id": "A",
+    "fit_auth_residue_range": [
+      44,
+      168
+    ],
+    "reference_chain": "A",
+    "sequence": "SMNPPPPETSNPNKPKRQTNQLQYLLRVVLKTLWKHQFAWPFQQPVDAVKLNLPDYYKIIKTPMDMGTIKKRLENNYYWNAQECIQDFNTMFTNCYIYNKPGDDIVLMAEALEKLFLQKINELPTEE"
+  },
+  "reference": {
+    "ccd_cif": {
+      "path": "data/phase2/sources/25K.cif",
+      "sha256": "7655d1fc6ae92cbe28bfbcee7f5ecd414628bc2fce126cf6e3cbdcf2ebe50d88"
+    },
+    "ccd_sdf": {
+      "path": "data/ccd/25K_ideal.sdf",
+      "sha256": "2e978f1ec28868bcb8595e0001dd7964e8dc196a6f8a236a6c0dc6e3e48eb81b"
+    },
+    "pdb": {
+      "path": "data/raw/4MEN.pdb",
+      "sha256": "a1b21bdc30365fb0ca905a6f9f00cc5955e3b382e6b726c02e4a2162be55b6a0"
+    },
+    "polymer_metadata": {
+      "path": "data/phase2/sources/4MEN_polymer_1.json",
+      "sha256": "5969a24b39cb82d34b986ba10467926efdc9d2a83d30d6b93f440af87d7cd3a1"
+    }
+  },
+  "requires_user_approval": true,
+  "resources": {
+    "gpu_count": 1,
+    "max_cost_USD": 5,
+    "min_free_disk_GB": 25,
+    "min_ram_GB": 16,
+    "recommended_vram_GB": 24,
+    "wall_time_limit_minutes": 30
+  },
+  "schema_version": 1
+}
