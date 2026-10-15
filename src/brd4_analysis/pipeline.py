@@ -127,9 +127,9 @@ def analyse_entry(
 
     tables = results_dir / "tables"
     tables.mkdir(parents=True, exist_ok=True)
-    contacts.to_csv(tables / f"contacts_summary_{pdb_id}.csv", index=False)
-    pairs.to_csv(tables / f"contact_pairs_{pdb_id}.csv", index=False)
-    overlaps.to_csv(tables / f"vdw_overlaps_{pdb_id}.csv", index=False)
+    contacts.to_csv(tables / f"contacts_summary_{pdb_id}.csv", index=False, lineterminator="\r\n")
+    pairs.to_csv(tables / f"contact_pairs_{pdb_id}.csv", index=False, lineterminator="\r\n")
+    overlaps.to_csv(tables / f"vdw_overlaps_{pdb_id}.csv", index=False, lineterminator="\r\n")
 
     save_ligand_2d(ccd_mol, comp_id, pdb_id, results_dir / "figures" / f"ligand_{pdb_id}.png")
     plot_residue_contacts(
@@ -195,7 +195,7 @@ def run_analysis(
         )
 
     df = pd.DataFrame(descriptor_rows).set_index("pdb_id")
-    df.to_csv(results_dir / "tables" / "ligand_descriptors.csv")
+    df.to_csv(results_dir / "tables" / "ligand_descriptors.csv", lineterminator="\r\n")
 
     counts_frames = []
     for pid in PDB_IDS:
@@ -205,7 +205,7 @@ def run_analysis(
         c.insert(0, "pdb_id", pid)
         counts_frames.append(c)
     pd.concat(counts_frames).to_csv(
-        results_dir / "tables" / "threshold_counts.csv", index=False
+        results_dir / "tables" / "threshold_counts.csv", index=False, lineterminator="\r\n"
     )
 
     sim = tanimoto_morgan(mols["4MEN"], mols["4MEO"])
