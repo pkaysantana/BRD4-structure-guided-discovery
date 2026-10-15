@@ -65,7 +65,7 @@ def positive(value, name, maximum=None):
         raise ValueError(f"{name} exceeds pilot limit {maximum}")
 
 
-def source_path(spec: dict, root: Path = PROJECT_ROOT) -> Path:
+def source_path(spec: dict, root: Path = PROJECT_ROOT, *, allow_pending_hash: bool = False) -> Path:
     keys(spec, {"path", "sha256"}, "source")
     if not isinstance(spec["path"], str) or "\\" in spec["path"] or ":" in spec["path"]:
         raise ValueError("Source paths must use repository-relative POSIX spelling")
@@ -75,7 +75,9 @@ def source_path(spec: dict, root: Path = PROJECT_ROOT) -> Path:
     resolved = (root / rel).resolve()
     if not resolved.is_relative_to(root.resolve()):
         raise ValueError("Source path escapes the repository through a symlink")
-    if not re.fullmatch(r"[0-9a-f]{64}", spec["sha256"]):
+    if spec["sha256"] is None and allow_pending_hash:
+        return resolved
+    if not isinstance(spec["sha256"], str) or not re.fullmatch(r"[0-9a-f]{64}", spec["sha256"]):
         raise ValueError("Source requires a SHA-256 digest")
     if not resolved.is_file() or sha256(resolved) != spec["sha256"]:
         raise ValueError(f"Missing or changed source: {rel}")
@@ -106,7 +108,22 @@ def validate_a3m(path: Path, sequence: str) -> int:
     return len(records)
 
 
-def validate_config(config: dict, root: Path = PROJECT_ROOT) -> dict:
+def experiment_role(config: dict) -> str:
+    """No-MSA outputs can never be labelled as the primary scientific condition."""
+    return "smoke_test" if config["msa"]["mode"] == "single_sequence" else "primary_structural_evaluation"
+
+
+def msa_is_pinned(config: dict) -> bool:
+    msa = config["msa"]
+    return msa["mode"] == "single_sequence" or (
+        msa["file"]["sha256"] is not None
+        and all(value is not None for value in msa["provenance"].values())
+    )
+
+
+def validate_config(
+    config: dict, root: Path = PROJECT_ROOT, *, allow_pending_msa: bool = False,
+) -> dict:
     keys(config, {
         "schema_version", "experiment_id", "requires_user_approval", "reference",
         "protein", "ligand", "msa", "boltz", "metrics", "resources",
@@ -142,26 +159,34 @@ def validate_config(config: dict, root: Path = PROJECT_ROOT) -> dict:
     elif msa.get("mode") == "local_a3m":
         keys(msa, {"mode", "file", "provenance"}, "msa")
         keys(msa["provenance"], {"generator", "database", "database_release", "retrieved_utc", "server"}, "msa provenance")
-        if any(not isinstance(v, str) or not v.strip() for v in msa["provenance"].values()):
-            raise ValueError("Record MSA provenance explicitly; use 'unknown' rather than inventing a release")
-        validate_a3m(source_path(msa["file"], root), protein["sequence"])
+        for value in msa["provenance"].values():
+            if value is None and allow_pending_msa:
+                continue
+            if not isinstance(value, str) or not value.strip():
+                raise ValueError("MSA provenance is pending; record its origin before preparation")
+        msa_path = source_path(msa["file"], root, allow_pending_hash=allow_pending_msa)
+        if msa["file"]["sha256"] is not None:
+            if validate_a3m(msa_path, protein["sequence"]) < 2:
+                raise ValueError("The primary MSA requires the query and at least one alignment hit")
     else:
         raise ValueError("Only explicit single_sequence or pinned local_a3m is supported; no live server")
     boltz = config["boltz"]
     keys(boltz, {
         "version", "rdkit_version", "model", "seed", "recycling_steps", "sampling_steps",
         "diffusion_samples", "max_parallel_samples", "step_scale", "use_potentials",
-        "no_kernels", "affinity", "templates", "constraints", "cache_dir",
+        "no_kernels", "affinity", "templates", "constraints", "cache_dir", "max_msa_seqs",
     }, "boltz")
     if boltz["version"] != BOLTZ_VERSION or boltz["rdkit_version"] != RDKIT_VERSION or boltz["model"] != "boltz2":
         raise ValueError("Unreviewed Boltz or RDKit version")
-    for key in ["seed", "recycling_steps", "sampling_steps", "diffusion_samples", "max_parallel_samples"]:
+    for key in ["seed", "recycling_steps", "sampling_steps", "diffusion_samples", "max_parallel_samples", "max_msa_seqs"]:
         if type(boltz[key]) is not int:
             raise ValueError(f"{key} must be an integer")
     if not 0 <= boltz["seed"] <= 2**32 - 1:
         raise ValueError("Seed must be a uint32")
     if boltz["diffusion_samples"] != 1 or boltz["max_parallel_samples"] != 1:
         raise ValueError("This pilot specification supports only one sample in one seed")
+    if boltz["max_msa_seqs"] != 8192:
+        raise ValueError("Keep the upstream 8192-sequence MSA limit; a depth ablation is a separate experiment")
     positive(boltz["recycling_steps"], "recycling_steps", 3)
     positive(boltz["sampling_steps"], "sampling_steps", 200)
     positive(boltz["step_scale"], "step_scale", 2)

@@ -1,17 +1,26 @@
-# Controlled Boltz-2 pilot: provisional preregistration
+# Controlled Boltz-2 pilot: reconciled preregistration
 
-Status: **prepared, awaiting user review; no prediction executed**.
-The supplied deliverable 3 protocol is missing. This is a concrete
-engineering proposal to reconcile with that draft before execution.
-The scope is a 4MEN pipeline control before the interview on
-19 October 2026 at 11:30 am.
+Status: **design reviewed against all six supplied deliverables; no
+prediction executed**. The primary scientific condition follows the
+supplied protocol's Arm A: sequence + full cached MSA, no template.
+Its first GPU run is one seed and one sample for timing and structural
+evaluation. The no-MSA condition is an optional smoke test only.
 
-The executable specification is
-[`configs/phase2/4men_pilot.json`](../../configs/phase2/4men_pilot.json).
-The frozen experiment is
-[`experiments/phase2/4men_single_sequence_s20261019/`](../../experiments/phase2/4men_single_sequence_s20261019/).
-It contains only preparation/validation artefacts. The library has no
-model-download, prediction-launch or seed-campaign command.
+The primary design is
+[`configs/phase2/4men_primary.json`](../../configs/phase2/4men_primary.json).
+Its real MSA and provenance have not been acquired. Null fields mean
+**pending**, not a fabricated alignment or a valid checksum. `plan`
+validates the design offline; strict `validate`, `prepare` and subsequent
+runtime checks prevent executing an unpinned input.
+
+The separate smoke configuration is
+[`configs/phase2/4men_smoke.json`](../../configs/phase2/4men_smoke.json),
+with prepared bundle `experiments/phase2/4men_smoke_s20261019_v2/`.
+The previous `4men_single_sequence_s20261019` bundle is an unchanged,
+superseded preparation record. No bundle contains model predictions.
+See [the reconciliation](PROTOCOL_RECONCILIATION.md) for every material
+departure from the supplied protocol. The library has no model-download,
+MSA-search, prediction-launch or seed-campaign command.
 
 ## Software and interface verification
 
@@ -35,6 +44,10 @@ mixed spelling `--preprocessing-threads` and `--recycling_steps`.
 YAML fields and output paths were checked against the wheel parser/writer.
 This is static interface verification; compatibility with an actual GPU
 runtime and real emitted output remains an execution-stage check.
+The pinned official GitHub prediction guide and parser/CLI source were
+re-fetched during this follow-up and match the saved guide/wheel extracts.
+The guide's options table still shows 1.638 for `step_scale`; the Boltz-2
+branch in the actual v2.2.1 code uses 1.5. We specify 1.5 explicitly.
 
 Boltz requires, among other dependencies, NumPy `<2.0`, Biopython `1.84`
 and requests `2.32.3`. These conflict with the pinned Phase 1 environment.
@@ -73,6 +86,9 @@ C15H17N5, 20 heavy atoms, formal charge zero, no stereocentres or specified
 stereobonds, InChIKey `JAEVUMCKPBRDAJ-UHFFFAOYSA-N`. The alternate SMILES
 in the supplied evidence brief gives the same graph. This is template
 chemistry consistency, not a new experimental sample identification.
+The neutral input is a fixed modelling assumption consistent with the
+CCD; it is not an experimentally established pKa or proof that other
+protomers cannot matter.
 
 The generated YAML supplies only sequence, SMILES and an explicit MSA
 policy. It supplies no receptor coordinates, templates, binding-site
@@ -83,32 +99,48 @@ evaluation. SMILES input does not eliminate training leakage.
 
 | Setting | Preregistered value |
 |---|---|
-| Purpose | Known-complex structural harness control; single-sequence condition |
+| Purpose | First Arm A timing/structural evaluation on a known complex |
 | Model | `boltz2` |
 | Seed | `20261019` |
 | Diffusion samples / parallel samples | 1 / 1 |
 | Recycling / diffusion sampling steps | 3 / 200 |
 | Step scale | 1.5 |
+| MSA sequence limit | 8192, upstream default; no `--subsample_msa` depth ablation |
 | Steering potentials | Off |
 | Optimized kernels | Disabled with `--no_kernels` for a simpler initial runtime |
 | Templates / constraints / affinity inference | None |
 | Output | mmCIF plus the model's confidence JSON |
 | Sample selection | The sole `model_0`; no reranking against the reference |
-| MSA | Explicit `msa: empty`; no server, database or external sequence hits used |
+| MSA | Full cached A3M, supplied as `msa: inputs/protein.a3m`; actual bytes/hash/provenance required before preparation |
 
-Single-sequence mode is a deliberate small engineering control, not an
-evaluation of Boltz's best performance. Upstream warns that omitting an
-MSA may reduce accuracy. The same reference-derived metrics apply even if
-the prediction fails. A later full-MSA experiment needs a new experiment
-ID and approval; its bytes, query, generator, server/date and database
-release must be recorded. If a server does not expose its database
-snapshot, say `unknown`; saving an A3M makes reuse possible but does not
-recover the missing database provenance.
+The supplied protocol's `--use_msa_server` syntax is valid when `msa` is
+omitted. For controlled reuse, acquire that alignment once after approval,
+archive it, and bind its checksum and provenance **before** freezing the
+primary experiment. No MSA service was called in this preparation.
+The proposed service is `https://api.colabfold.com`; record its actual
+generator/version when available, database identity/release, retrieval
+time, query, returned row count and file hash. Use an explicit `unknown`
+when the service does not expose a database release; do not invent it.
+Record acquisition duration separately from inference duration.
 
-The validator also supports a pinned local A3M. It checks the exact query,
-aligned row lengths and insertion handling and copies the file into that
-experiment. It will not generate or silently refresh an MSA. Do not omit
-the `msa` key and allow an automatic policy to be inferred.
+The primary inference command consumes the local file and does not use
+`--use_msa_server`. “Full MSA” means the obtained alignment with the
+upstream 8192-row limit and no intentional depth ablation, not every
+homolog that might exist. Save the complete returned file even if the
+model caps the rows it consumes. Reuse exactly these bytes in later
+approved arms; a changed MSA requires a new experiment ID.
+
+The validator checks the full 127-residue query, aligned row lengths,
+insertion handling and the presence of at least one alignment hit. A
+query-only file cannot be passed off as the primary condition. Header/
+sequence checks do not establish homology by themselves: the real source
+and provenance must also be reviewed.
+
+The no-MSA smoke uses explicit `msa: empty` and otherwise the same seed,
+model and sampling settings. It is labelled `smoke_test` in validation,
+preregistration and analysis. Its result does not substitute for Arm A or
+estimate the effect of MSA removal. Upstream warns of reduced accuracy;
+neither unchanged peak VRAM nor a fixed runtime ratio is assumed.
 
 ## Metrics fixed before looking at predictions
 
@@ -135,6 +167,10 @@ protein fit, without a second fit or selection using the prediction.
 Reference protein alternate conformers follow Phase 1's Biopython
 highest-occupancy selection, with file order breaking ties. Predicted
 alternate conformers or partial occupancy are rejected.
+This deliberately retains the existing 125-native-residue fit and
+8 Å pocket diagnostic, rather than adding the draft's all-127 fit and a
+second 4.2 Å pocket fit. The difference is declared before predictions;
+there is no choice of the best-fitting metric after seeing an output.
 
 **Contact precision and recall.** Contacts are sets of unique mapped
 polymer residues, each having at least one heavy atom within the inclusive
@@ -227,7 +263,7 @@ boltz predict inputs/4men.yaml \
   --model boltz2 --accelerator gpu --devices 1 --output_format mmcif \
   --num_workers 0 --preprocessing-threads 1 --seed 20261019 \
   --recycling_steps 3 --sampling_steps 200 --diffusion_samples 1 \
-  --max_parallel_samples 1 --step_scale 1.5 --no_kernels
+  --max_parallel_samples 1 --step_scale 1.5 --max_msa_seqs 8192 --no_kernels
 ```
 
 This command is a specification, **not permission to execute it**.
@@ -248,7 +284,7 @@ GPU results across software/hardware.
 Then use the Phase 1 analysis environment to run:
 
 ```text
-.venv/Scripts/python.exe -m brd4_analysis.phase2.cli analyse experiments/phase2/4men_single_sequence_s20261019
+.venv/Scripts/python.exe -m brd4_analysis.phase2.cli analyse experiments/phase2/4men_msa_s20261019_v1
 ```
 
 Analysis requires the frozen bundle, runtime record and exactly the sole

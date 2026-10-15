@@ -18,6 +18,8 @@ from brd4_analysis.phase2.workflow import verify_sources
 SUPPLIED = [
     "docs/research/_claude_science_01_evidence_brief_vidler2013.md",
     "docs/research/02_4MEO_ligand_identity_assessment_claude_science_.md",
+    "docs/protocols/03_boltz2_protocol_4MEN_claude_science.md",
+    "docs/research/04_interview_questions_claude_science.md",
     "docs/research/05_assessment_and_uncertainties_claude_science_.md",
     "data/derived/_claude_science_measurements_4MEN_4MEO.csv",
 ]
@@ -165,8 +167,20 @@ def write_audit(output: Path) -> Path:
     write_json(output / "research_inventory.json", {
         "review_date": "2026-10-15",
         "supplied_files": [{"path": p, "sha256": sha256(PROJECT_ROOT / p)} for p in SUPPLIED],
-        "missing_deliverables": ["Boltz-2 experimental protocol (deliverable 3)", "Five interview questions (deliverable 4)"],
-        "review_status": "four supplied files reviewed; original source files preserved without endorsement",
+        "missing_deliverables": [],
+        "review_status": "all six supplied files reviewed; original source files preserved without endorsement",
+        "downloads_intake": [
+            {
+                "original_filename": "03_boltz2_protocol_4MEN.md",
+                "original_folder": "user Downloads",
+                "archived_path": "docs/protocols/03_boltz2_protocol_4MEN_claude_science.md",
+            },
+            {
+                "original_filename": "04_interview_questions.md",
+                "original_folder": "user Downloads",
+                "archived_path": "docs/research/04_interview_questions_claude_science.md",
+            },
+        ],
     })
     write_json(output / "measurements_reconciliation.json", measurements)
     write_json(output / "32SC_assessment.json", later_case_review())

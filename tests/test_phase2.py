@@ -1,6 +1,7 @@
 """Small offline controls for errors that would invalidate the GPU pilot."""
 
 from copy import deepcopy
+import json
 from pathlib import Path
 
 import numpy as np
@@ -9,7 +10,7 @@ from rdkit import Chem
 
 from brd4_analysis.constants import PROJECT_ROOT
 from brd4_analysis.phase2.audit import later_case_review
-from brd4_analysis.phase2.config import read_json, validate_a3m, validate_config
+from brd4_analysis.phase2.config import read_json, sha256, source_path, validate_a3m, validate_config
 from brd4_analysis.phase2.inputs import atom_names, reference_data
 from brd4_analysis.phase2.metrics import (
     contact_residues, contact_scores, geometry_checks, graph_mappings,
@@ -19,7 +20,7 @@ from brd4_analysis.phase2.workflow import (
     planned_command, prepare, score_prediction, validate, verify_run,
 )
 
-CONFIG = PROJECT_ROOT / "configs/phase2/4men_pilot.json"
+CONFIG = PROJECT_ROOT / "configs/phase2/4men_smoke.json"
 
 
 @pytest.fixture(scope="module")
@@ -249,3 +250,80 @@ def test_reference_validation_and_duplicate_later_case():
     assert later["protein_CA_atoms_compared"] == 127
     assert later["ligand_heavy_atoms_compared"] == 19
     assert later["entries"]["9FWX"]["initial_release_date"].startswith("2024-08-07")
+
+
+def test_primary_plan_is_explicitly_blocked_while_smoke_is_separate(tmp_path):
+    primary = PROJECT_ROOT / "configs/phase2/4men_primary.json"
+    _, _, plan = validate(primary, allow_pending_msa=True)
+    assert plan["experiment_role"] == "primary_structural_evaluation"
+    assert not plan["ready_for_preparation"]
+    assert not plan["execution_authorized"]
+    assert plan["proposed_input"]["sequences"][0]["protein"]["msa"] == "inputs/protein.a3m"
+    assert "--use_msa_server" not in plan["planned_command"]
+    with pytest.raises(ValueError, match="MSA"):
+        prepare(primary, tmp_path)
+    assert list(tmp_path.iterdir()) == []
+    _, _, smoke = validate(CONFIG)
+    assert smoke["experiment_role"] == "smoke_test"
+    assert smoke["ready_for_preparation"]
+
+
+@pytest.fixture
+def local_msa_fixture(tmp_path, monkeypatch):
+    """An explicit synthetic alignment overlay; never a production MSA."""
+    primary = read_json(PROJECT_ROOT / "configs/phase2/4men_primary.json")
+    primary["experiment_id"] = "4men_msa_synthetic_fixture"
+    relative = primary["msa"]["file"]["path"]
+    msa = tmp_path / relative
+    msa.parent.mkdir(parents=True)
+    query = primary["protein"]["sequence"]
+    altered = query[:2] + "Q" + query[3:]
+    msa.write_bytes(f">query\n{query}\n>synthetic_test_only\n{altered}\n".encode())
+    primary["msa"]["file"]["sha256"] = sha256(msa)
+    primary["msa"]["provenance"] = {
+        "generator": "unit test", "database": "synthetic fixture only",
+        "database_release": "not applicable", "retrieved_utc": "2026-10-15T00:00:00Z",
+        "server": "none; synthetic fixture",
+    }
+
+    def lookup(spec, root=PROJECT_ROOT, **kwargs):
+        return source_path(spec, tmp_path if spec["path"] == relative else root, **kwargs)
+
+    monkeypatch.setattr("brd4_analysis.phase2.config.source_path", lookup)
+    monkeypatch.setattr("brd4_analysis.phase2.workflow.source_path", lookup)
+    return primary, msa
+
+
+def test_cached_msa_is_copied_hashed_and_never_refreshed(tmp_path, local_msa_fixture, monkeypatch):
+    primary, msa = local_msa_fixture
+    config_path = tmp_path / "primary.json"
+    config_path.write_text(json.dumps(primary), encoding="utf-8")
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Local-MSA preparation attempted network or process execution")
+
+    monkeypatch.setattr("requests.sessions.Session.request", forbidden)
+    monkeypatch.setattr("subprocess.run", forbidden)
+    run = prepare(config_path, tmp_path / "runs")
+    assert read_json(run / "preregistration.json")["experiment_role"] == "primary_structural_evaluation"
+    assert (run / "inputs/protein.a3m").read_bytes() == msa.read_bytes()
+    assert "--use_msa_server" not in read_json(run / "command.json")["argv"]
+    assert verify_run(run)["msa"]["file"]["sha256"] == sha256(msa)
+    (run / "inputs/protein.a3m").write_bytes(b"changed alignment")
+    with pytest.raises(ValueError, match="modified"):
+        verify_run(run)
+
+
+def test_query_only_alignment_cannot_masquerade_as_primary(local_msa_fixture):
+    primary, msa = local_msa_fixture
+    msa.write_bytes(f">query\n{primary['protein']['sequence']}\n".encode())
+    primary["msa"]["file"]["sha256"] = sha256(msa)
+    with pytest.raises(ValueError, match="at least one alignment hit"):
+        validate_config(primary)
+
+
+def test_plan_mode_does_not_ignore_a_changed_pinned_alignment(local_msa_fixture):
+    primary, msa = local_msa_fixture
+    msa.write_bytes(msa.read_bytes() + b"\n")
+    with pytest.raises(ValueError, match="changed source"):
+        validate_config(primary, allow_pending_msa=True)

@@ -2,10 +2,18 @@
 
 Review date: 15 October 2026. Baseline: PR #1, commit
 `5c06db21811a29e9925ab008ca555129c71c0a35`.
-This is an engineering review of four supplied files, not a repeat
-literature review. The experimental protocol and interview questions are
-still missing. Published results cited by the supplied brief remain
+The initial engineering review covered four supplied files. The follow-up
+located and read the protocol and interview questions in Downloads,
+completing all six. This is not a repeat literature review.
+Published results cited by the supplied brief remain
 attributed to that source unless a local reproduction is identified below.
+
+The [protocol reconciliation](../phase2/PROTOCOL_RECONCILIATION.md)
+records the subsequent decisions: cached full MSA is the primary
+condition, the no-MSA run is an optional smoke test, and the first
+primary timing run is one seed/one sample. The same evidence corrections
+below apply to the protocol and to the
+[reviewed interview answers](04_interview_questions_reviewed.md).
 
 ## Evidence categories
 

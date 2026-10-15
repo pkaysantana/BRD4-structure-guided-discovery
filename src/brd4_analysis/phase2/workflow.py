@@ -23,7 +23,8 @@ import numpy as np
 from brd4_analysis.constants import PROJECT_ROOT
 from brd4_analysis.parse import atom_element
 from brd4_analysis.phase2.config import (
-    SOURCE_DIR, read_json, sha256, source_path, validate_config, write_json,
+    SOURCE_DIR, experiment_role, msa_is_pinned, read_json, sha256, source_path,
+    validate_config, write_json,
 )
 from brd4_analysis.phase2.inputs import atom_names, read_prediction, reference_data
 from brd4_analysis.phase2.metrics import (
@@ -69,7 +70,7 @@ def planned_command(config: dict) -> list[str]:
         "--output_format", "mmcif", "--num_workers", "0", "--preprocessing-threads", "1",
     ]
     for name in ["seed", "recycling_steps", "sampling_steps", "diffusion_samples",
-                 "max_parallel_samples", "step_scale"]:
+                 "max_parallel_samples", "step_scale", "max_msa_seqs"]:
         argv += ["--" + name, str(b[name])]
     argv.append("--no_kernels")
     return argv
@@ -134,12 +135,29 @@ def reference_arrays(ref):
     return by_residue, np.asarray([a.coord for a in atoms], dtype=float), [atom_element(a) for a in atoms]
 
 
-def validate(config_path: Path) -> tuple[dict, dict, dict]:
-    config = validate_config(read_json(config_path))
+def input_document(config: dict) -> dict:
+    msa_value = "empty" if config["msa"]["mode"] == "single_sequence" else "inputs/protein.a3m"
+    return {
+        "version": 1,
+        "sequences": [
+            {"protein": {"id": "A", "sequence": config["protein"]["sequence"], "msa": msa_value}},
+            {"ligand": {"id": "B", "smiles": config["ligand"]["smiles"]}},
+        ],
+    }
+
+
+def validate(config_path: Path, *, allow_pending_msa: bool = False) -> tuple[dict, dict, dict]:
+    config = validate_config(read_json(config_path), allow_pending_msa=allow_pending_msa)
     ref = reference_data(config)
     by_residue, xyz, elements = reference_arrays(ref)
     report = {
-        "status": "offline_validated_not_executed",
+        "status": "offline_validated_not_executed" if msa_is_pinned(config) else "design_validated_MSA_pending_not_executable",
+        "experiment_role": experiment_role(config),
+        "ready_for_preparation": msa_is_pinned(config),
+        "execution_authorized": False,
+        "msa": config["msa"],
+        "proposed_input": input_document(config),
+        "planned_command": planned_command(config),
         "interface": verify_interface(config),
         "sequence_length": len(ref["mapping"]), "fit_CA_count": 125,
         "construct": "SM expression remnant + UniProt O60885 residues 44-168",
@@ -169,19 +187,10 @@ def prepare(config_path: Path, output_root: Path = OUTPUT_ROOT) -> Path:
     run.mkdir(parents=True, exist_ok=False)
     inputs = run / "inputs"
     inputs.mkdir()
-    msa_value = "empty"
     if config["msa"]["mode"] == "local_a3m":
         shutil.copyfile(source_path(config["msa"]["file"]), inputs / "protein.a3m")
-        msa_value = "inputs/protein.a3m"
-    document = {
-        "version": 1,
-        "sequences": [
-            {"protein": {"id": "A", "sequence": config["protein"]["sequence"], "msa": msa_value}},
-            {"ligand": {"id": "B", "smiles": config["ligand"]["smiles"]}},
-        ],
-    }
     # JSON is a YAML subset understood by Boltz's yaml.safe_load, avoiding a new dependency.
-    write_json(inputs / "4men.yaml", document)
+    write_json(inputs / "4men.yaml", input_document(config))
     write_json(run / "config.json", config)
     write_json(run / "validation.json", report)
     write_json(run / "command.json", {"argv": planned_command(config), "working_directory": "this experiment directory", "executed": False})
@@ -197,6 +206,7 @@ def prepare(config_path: Path, output_root: Path = OUTPUT_ROOT) -> Path:
     (run / "residue_mapping.csv").write_bytes(buffer.getvalue().encode())
     write_json(run / "preregistration.json", {
         "status": "awaiting_user_review_no_prediction_generated",
+        "experiment_role": experiment_role(config),
         "experiment_id": config["experiment_id"], "metrics": config["metrics"],
         "fit_residues": [m["reference_label"] for m in ref["mapping"] if m["fit_CA"]],
         "pocket_residues": sorted(contact_residues(
@@ -205,7 +215,7 @@ def prepare(config_path: Path, output_root: Path = OUTPUT_ROOT) -> Path:
         "primary_pose": "one seed, one sample, model_0; no reference-guided selection",
         "rmsd": "proper Kabsch fit on all 125 matched protein CAs, then minimum ligand heavy-atom RMSD over exact graph isomorphisms; no ligand fit",
         "contact_unit": "unique mapped polymer residue; minimum heavy-atom distance <= cutoff; no waters, additives, or inferred H bonds",
-        "success": "all primary thresholds AND geometry screen pass; a harness result only",
+        "success": "all declared thresholds AND geometry screen pass; interpret within the recorded experiment role",
         "confidence": "diagnostic only; no calibrated probability or acceptance threshold",
         "msa": config["msa"],
         "model": model_provenance(),
@@ -275,6 +285,7 @@ def score_prediction(config: dict, path: Path) -> dict:
         "geometry": geometry["valid"],
     }
     return {
+        "experiment_role": experiment_role(config),
         "ligand_pose": pose, "protein_ca_rmsd_A": protein_rmsd,
         "protein_fit_CA_count": len(selected),
         "pocket_ca_rmsd_in_global_frame_A": rmsd(

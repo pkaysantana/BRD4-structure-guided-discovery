@@ -11,24 +11,24 @@ from brd4_analysis.phase2.audit import write_audit
 from brd4_analysis.phase2.runtime import capture_runtime
 from brd4_analysis.phase2.workflow import analyse_run, prepare, validate
 
-DEFAULT_CONFIG = PROJECT_ROOT / "configs/phase2/4men_pilot.json"
+DEFAULT_CONFIG = PROJECT_ROOT / "configs/phase2/4men_primary.json"
 
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
-    for name in ["validate", "prepare"]:
+    for name in ["plan", "validate", "prepare"]:
         child = sub.add_parser(name)
         child.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
     audit = sub.add_parser("audit", help="reproduce selected research values and the 32SC duplicate check")
-    audit.add_argument("--output", type=Path, default=PROJECT_ROOT / "data/phase2/review")
+    audit.add_argument("--output", type=Path, default=PROJECT_ROOT / "data/phase2/review/followup")
     for name in ["capture-runtime", "analyse"]:
         child = sub.add_parser(name)
         child.add_argument("run", type=Path)
     args = parser.parse_args(argv)
     try:
-        if args.command == "validate":
-            _, _, report = validate(args.config)
+        if args.command in {"plan", "validate"}:
+            _, _, report = validate(args.config, allow_pending_msa=args.command == "plan")
             print(json.dumps(report, indent=2, allow_nan=False))
         elif args.command == "prepare":
             print(prepare(args.config))

@@ -1,0 +1,21 @@
+{
+  "Linux_unavailable_reason": "WSL not installed; no Docker executable",
+  "checked_utc": "2026-10-15T17:45:03.496591+00:00",
+  "native_Linux_run": false,
+  "original_input_results_and_report_files_preserved": true,
+  "pytest": "45 passed in 7.40s",
+  "report_note": "Fresh Windows worktree checkout uses CRLF; the renderer writes canonical LF matching the Git blob and original workspace. Only temporary report copies were rendered.",
+  "results": {
+    "Linux_default_simulation": {
+      "numeric_files_byte_identical": 9,
+      "report_byte_identical_to_committed_LF_and_original_workspace": true
+    },
+    "Windows_default": {
+      "numeric_files_byte_identical": 9,
+      "report_byte_identical_to_committed_LF_and_original_workspace": true
+    }
+  },
+  "source_branch": "phase-1-baseline",
+  "source_file": "C:\\Users\\LLR User\\BRD4\\BRD4-phase1-csv-portability\\src\\brd4_analysis\\pipeline.py",
+  "uses_actual_corrected_writer": true
+}

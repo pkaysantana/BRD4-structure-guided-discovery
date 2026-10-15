@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "experiment_id": "4men_single_sequence_s20261019",
+  "experiment_id": "4men_smoke_s20261019_v2",
   "requires_user_approval": true,
   "reference": {
     "pdb": {
@@ -44,6 +44,7 @@
     "sampling_steps": 200,
     "diffusion_samples": 1,
     "max_parallel_samples": 1,
+    "max_msa_seqs": 8192,
     "step_scale": 1.5,
     "use_potentials": false,
     "no_kernels": true,

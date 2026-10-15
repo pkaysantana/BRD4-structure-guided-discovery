@@ -14,6 +14,8 @@ Start with [`docs/phase2/REVIEW_PACKET.md`](docs/phase2/REVIEW_PACKET.md)
 for the merge recommendation, research corrections, validation, frozen
 single-run specification and resource limits. Model downloads and GPU
 execution await user review; no predictions have been generated.
+The primary condition uses a cached full MSA; the no-MSA configuration is
+an optional smoke test. See the review packet for the pending MSA-input gate.
 
 ## Quickstart
 
