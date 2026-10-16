@@ -1,0 +1,55 @@
+{
+  "analysis_source_sha256_LF": {
+    "__init__.py": "e11bfa9feb412e476a07ba653b8ba31971884344746ccba652dbaa74895178ec",
+    "constants.py": "e91134389e648e1cc7a812cb46b8c9bd510d88586bc29499b1d8f7d92751251b",
+    "contacts.py": "65e1645daea0b81f46b666aa54b2723ab2591dedbd1ed4d56c75f77486ca4e1d",
+    "descriptors.py": "370754e7e03255a0749f034e620679b4cbaddfc2d553e78e963365aee60f9e55",
+    "parse.py": "daf85c1086973ce8652dea13a82202ebac5687c75afea65f5711e4dfa014c525",
+    "phase2/__init__.py": "342d4125fad74ffe5199a3631389ef52b190223c0ad34636629594133f995331",
+    "phase2/audit.py": "49032ca654f80355894867a8a445b701370cb2979ac596dff22497dd9326587d",
+    "phase2/cli.py": "d11194e8e5d0fabba33edc1f41eddc12d9dc750a65fa39c151e8d1e28978385d",
+    "phase2/config.py": "a028310644d16ce9e7160dcce6bf0e03b83993e3dc107c1db78f08ba595098ff",
+    "phase2/inputs.py": "32c0d8734a278142b670195822468a9de634eec1e7c1f779e62783aa91d437b8",
+    "phase2/metrics.py": "c698539f6b71265454ad15d83ce34b315f49aa8251e3c85f2ed3d1135b8bcdad",
+    "phase2/runtime.py": "db5335bcdee34e8ab56b6585d02e48ed9f5d770fcdd76aa920de771de9918ed7",
+    "phase2/workflow.py": "5e9eef1a78ca5a950b85430aa058492bdf6302a7e5eb9927321025e8e3336e02"
+  },
+  "execution_authorized": false,
+  "files": {
+    "command.json": "6a9b5076e2253eb356852cbb0974774fe966a006ef28aefacd0a97c5688d4308",
+    "config.json": "f0b7bfb9fb2a6eafa35c356042da90f824da7e9fb487f2244b13c1db431e3d2d",
+    "inputs/4men.yaml": "24771d873fbd79bbf1fa7b0bed3de553b50ae89d5127ca1588621117a2001729",
+    "ligand_atom_names.json": "0dffb08f3edade1f72b871aab96d8bd351a5aa1b434486ce8ced5759fc72d040",
+    "preregistration.json": "36a0d0212a5a8b48dae5fa73fc461b57f56386f1da1dcf378bc2b82d845dc5cf",
+    "residue_mapping.csv": "b56c707f1b2a11b28ef5a6ae22064287da67f12e44a84d8f1e71af6251cd87d5",
+    "validation.json": "2832dca8f3ace7facbb73e62f94eab43c92566e7f73c30303e8844e2b7959f1a"
+  },
+  "packages": {
+    "biopython": "1.88",
+    "numpy": "2.5.3",
+    "rdkit": "2026.3.6"
+  },
+  "platform": "Windows-11-10.0.26200-SP0",
+  "prepared_utc": "2026-10-16T00:52:41.875873+00:00",
+  "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+  "reference": {
+    "ccd_cif": {
+      "path": "data/phase2/sources/25K.cif",
+      "sha256": "7655d1fc6ae92cbe28bfbcee7f5ecd414628bc2fce126cf6e3cbdcf2ebe50d88"
+    },
+    "ccd_sdf": {
+      "path": "data/ccd/25K_ideal.sdf",
+      "sha256": "2e978f1ec28868bcb8595e0001dd7964e8dc196a6f8a236a6c0dc6e3e48eb81b"
+    },
+    "pdb": {
+      "path": "data/raw/4MEN.pdb",
+      "sha256": "a1b21bdc30365fb0ca905a6f9f00cc5955e3b382e6b726c02e4a2162be55b6a0"
+    },
+    "polymer_metadata": {
+      "path": "data/phase2/sources/4MEN_polymer_1.json",
+      "sha256": "5969a24b39cb82d34b986ba10467926efdc9d2a83d30d6b93f440af87d7cd3a1"
+    }
+  },
+  "schema_version": 1,
+  "source_manifest_sha256": "6176cdf4ef5fd228752000dc7bf5e07716621c68c534a85905038d0ac585ab9f"
+}

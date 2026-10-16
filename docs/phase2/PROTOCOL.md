@@ -15,10 +15,10 @@ runtime checks prevent executing an unpinned input.
 
 The separate smoke configuration is
 [`configs/phase2/4men_smoke.json`](../../configs/phase2/4men_smoke.json),
-with prepared bundle `experiments/phase2/4men_smoke_s20261019_v3/`.
-The earlier `4men_single_sequence_s20261019` and v2 smoke bundles are
-unchanged, superseded preparation records. V3 records the reviewed
-terminal-OXT compatibility correction. No bundle contains model predictions.
+with prepared bundle `experiments/phase2/4men_smoke_s20261019_v4/`.
+The earlier `4men_single_sequence_s20261019`, v2 and v3 smoke bundles are
+unchanged, superseded preparation records. V4 freezes the corrected MSA,
+CCD-cache and runtime-provenance gates. No bundle contains model predictions.
 See [the reconciliation](PROTOCOL_RECONCILIATION.md) for every material
 departure from the supplied protocol. The library has no model-download,
 MSA-search, prediction-launch or seed-campaign command.
@@ -131,11 +131,13 @@ homolog that might exist. Save the complete returned file even if the
 model caps the rows it consumes. Reuse exactly these bytes in later
 approved arms; a changed MSA requires a new experiment ID.
 
-The validator checks the full 127-residue query, aligned row lengths,
-insertion handling and the presence of at least one alignment hit. A
-query-only file cannot be passed off as the primary condition. Header/
-sequence checks do not establish homology by themselves: the real source
-and provenance must also be reviewed.
+The validator checks the full 127-residue query, aligned row lengths and
+lowercase-insertion handling. At least one non-query record in the first
+8192 records must contain an aligned standard amino-acid symbol. Gap-only,
+unknown-only and lowercase-insertion-only padding cannot establish a hit.
+Padding rows may coexist with an informative row; their bytes are not
+rewritten. This is a structural input check, not independently verified
+homology: the real source and provenance must still be reviewed.
 
 The no-MSA smoke uses explicit `msa: empty` and otherwise the same seed,
 model and sampling settings. It is labelled `smoke_test` in validation,
@@ -277,9 +279,19 @@ code prevents scoring until a new reviewed experiment is prepared.
 
 After user approval, run `capture-runtime` in the separate Linux GPU
 environment before invoking Boltz. It checks Boltz/RDKit versions and
-atom names, verifies all cached model assets, fingerprints the extracted
-CCD cache, and records installed distributions, Python, OS, Torch/CUDA,
-cuDNN, driver/GPU identity and relevant reproducibility settings.
+atom names and checks relevant package versions against the pinned Boltz
+wheel requirements. It verifies cached model assets and compares every
+extracted CCD filename and file byte with the verified `mols.tar`.
+Missing, altered or unexpected files/directories, archive path traversal,
+absolute/drive paths, links, special files and duplicate normalized archive
+entries fail before any GPU check. The comparison reads the archive; it
+does not extract it or load its pickle contents.
+
+Capture records a versioned `runtime.json` plus a `runtime.sha256`
+companion receipt, including the prepared-input hash, actual copied-MSA
+hash, model revision/assets, verified CCD inventory digest and count,
+installed distributions, Python, OS, Torch/CUDA, cuDNN, driver/GPU identity
+and relevant environment settings. Both files are written exclusively.
 It does not download weights or invoke Boltz.
 
 From the **prepared experiment directory**, the planned model command is:
@@ -315,7 +327,20 @@ Then use the Phase 1 analysis environment to run:
 .venv/Scripts/python.exe -m brd4_analysis.phase2.cli analyse experiments/phase2/4men_msa_s20261019_v1
 ```
 
-Analysis requires the frozen bundle, runtime record and exactly the sole
-planned model. It writes `analysis/metrics.json` once, including input,
+Analysis requires the frozen bundle, `runtime.json`, its `runtime.sha256`
+receipt and exactly the sole planned model. Before scientific scoring it
+checks the receipt, the complete runtime schema, and consistency with the
+frozen config/input, command, MSA checksum/provenance, model revision and
+checkpoint/archive metadata. Runtime package pins/requirements and CUDA
+build metadata must also agree. Copy both runtime files with the outputs
+when returning to the analysis environment; model weights need not be
+copied there for manifest validation.
+
+The receipt detects changes to a captured record; it is not cryptographic
+attestation against deliberately forging the record and receipt together,
+nor proof that a subsequent manual command used the recorded environment.
+Execution logs and operator provenance remain necessary.
+
+Analysis writes `analysis/metrics.json` once, including input,
 prediction, confidence and runtime hashes. Stop after this one run and
 review it, regardless of whether its acceptance gates pass.

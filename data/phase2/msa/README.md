@@ -13,6 +13,10 @@ database-version information as `unknown`, not a guessed snapshot.
 
 Review the source and query mapping before preparing the experiment.
 A file containing only the query is rejected for the primary condition.
+Gap-only, unknown-only or lowercase-insertion-only additional rows do not
+qualify as a hit. A non-query row in the declared 8192-record prefix must
+contain aligned standard amino-acid residues. Passing this structural
+check does not independently establish homology.
 Synthetic test alignments live only in pytest temporary directories and
 must never be copied here as scientific input.
 

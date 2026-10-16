@@ -75,16 +75,49 @@ CI workflow or golden result is changed by this PR. The only existing
 Historical Phase 1 review receipts and the old writer patch are retained
 as evidence, not reapplied changes.
 
-The integration checkpoint passed **84 tests**. After independent Codex
-review and the canonical-atom compatibility correction below, the full
-offline suite passes **89 tests**: 45 Phase 1 tests, 36 Phase 2 tests and
-eight synthetic preflight tests. The original 27 Phase 2 tests remain.
+The integration checkpoint passed **84 tests**, and the atom-coverage
+checkpoint passed **89 tests**. After the three final-review corrections,
+the full local Windows suite passes **161 tests**, with one symlink test
+skipped because the current Windows account lacks symlink privileges.
+The suite contains 162 cases: 45 Phase 1, 44 Phase 2 preparation/scoring,
+65 runtime-integrity/provenance and eight synthetic GPU-preflight cases.
+The original 27 Phase 2 tests remain.
 GPU-preflight tests block subprocess calls and Torch imports; they do not
 call the hardware collector. No GPU diagnostics or inference were needed
 for these results. The original integration receipt is
 [`main_integration.json`](../../data/phase2/review/main_integration.json);
-the correction and latest validation are recorded in
+the earlier atom-coverage correction is recorded in
 [`codex_atom_coverage.json`](../../data/phase2/review/codex_atom_coverage.json).
+The final corrections and validation are recorded in
+[`final_review_corrections.json`](../../data/phase2/review/final_review_corrections.json).
+Runtime tests use tiny synthetic assets and mocked GPU services; they
+neither import real Torch nor execute hardware commands.
+
+## Final review corrections
+
+The focused review of `5ebd95a` identified two P1 validation defects and
+one P2 provenance defect. The corrections are limited to those boundaries:
+
+- Extracted CCD files and directories must match the inventory and bytes
+  in the checksum-verified `mols.tar`. Missing/altered/unexpected entries,
+  unsafe paths, links, special files and duplicate normalized archive
+  entries are refused before GPU probes.
+- A primary MSA needs aligned standard amino-acid information in at least
+  one non-query record within the declared 8192-record prefix. Query plus
+  padding cannot qualify. Lowercase insertions and query/alignment lengths
+  retain their checks; this does not independently establish homology.
+- Scientific scoring requires a complete versioned runtime manifest,
+  its capture-time checksum receipt, and consistency with frozen inputs,
+  command, MSA, model assets/revision and relevant package requirements.
+  Incomplete, changed or inconsistent records are refused before scoring.
+  The receipt detects changes; it is not attestation against forging both
+  the record and receipt, or proof of subsequent manual execution.
+
+All existing scientific/reference artefacts and the original Legion
+preflight files are preserved. Current smoke preparation is v4, which
+freezes the corrected code hashes; earlier bundles remain historical.
+Metric definitions, thresholds, ligand/construct inputs, model pins and
+the primary full-MSA condition have not changed.
 
 ## Independent review correction
 
@@ -108,9 +141,9 @@ predicted atoms. Five added regression cases cover OXT omission, retained
 terminal-O requirements, canonical additional atoms/contact accounting,
 and rejection of unknown or wrongly typed extras.
 
-The new source policy is frozen in
-`experiments/phase2/4men_smoke_s20261019_v3/`. Previous bundles, including
-v2, are preserved unchanged as superseded preparation records. The
+That source policy was frozen in
+`experiments/phase2/4men_smoke_s20261019_v3/`, now preserved as a superseded
+checkpoint. V4 retains it along with the final validation corrections. The
 primary full-MSA design remains blocked on real MSA input/provenance.
 Phase 1 and the three original Legion preflight files remain unchanged.
 
