@@ -1,0 +1,26 @@
+{
+  "missing_deliverables": [
+    "Boltz-2 experimental protocol (deliverable 3)",
+    "Five interview questions (deliverable 4)"
+  ],
+  "review_date": "2026-10-15",
+  "review_status": "four supplied files reviewed; original source files preserved without endorsement",
+  "supplied_files": [
+    {
+      "path": "docs/research/_claude_science_01_evidence_brief_vidler2013.md",
+      "sha256": "ae0b5d02f6a1754582f8bdbbd04a7a8c85968b0aed3ba9ae95cb911ef8e099d2"
+    },
+    {
+      "path": "docs/research/02_4MEO_ligand_identity_assessment_claude_science_.md",
+      "sha256": "73306243a86d2a13d112da276a2e0ead0b8864d7836efe990b78d1534911ae4e"
+    },
+    {
+      "path": "docs/research/05_assessment_and_uncertainties_claude_science_.md",
+      "sha256": "63beb404563b674046741a21972cb4be76592a2a96c6429d5e0c7793f6e856cb"
+    },
+    {
+      "path": "data/derived/_claude_science_measurements_4MEN_4MEO.csv",
+      "sha256": "94bb9c97dd056ae7958262623c68746b1d6ddb61af6ce448e5608d4ea5d58a45"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+# Preserve supplied research bytes so the intake hashes survive checkout.
+*claude_science*.md -text

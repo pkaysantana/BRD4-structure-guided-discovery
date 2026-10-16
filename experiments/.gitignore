@@ -1,0 +1,9 @@
+# Preserve each experiment locally; curate model outputs before adding them to Git.
+phase2/*/outputs/
+phase2/*/logs/
+phase2/*/runtime.json
+phase2/*/runtime.sha256
+phase2/*/run_observation.json
+**/*.ckpt
+**/*.tar
+**/*.pkl

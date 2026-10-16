@@ -1,0 +1,195 @@
+{
+  "files": [
+    {
+      "path": "boltz_pypi_2.2.1.json",
+      "retrieved_utc": "2026-10-15T16:43:37.305443+00:00",
+      "sha256": "c56d48b47debfa76f0d42fac1b77a28b0474ce43e4270b3b72b2fc5255e6e495",
+      "size_bytes": 9647,
+      "url": "https://pypi.org/pypi/boltz/2.2.1/json"
+    },
+    {
+      "path": "boltz_release_2.2.1.json",
+      "retrieved_utc": "2026-10-15T16:43:37.766627+00:00",
+      "sha256": "55b884015aa2945d868c4de2aa8ac017eb2d0bc311e428d2587bfc0a35cd0d8f",
+      "size_bytes": 4032,
+      "url": "https://api.github.com/repos/jwohlwend/boltz/releases/tags/v2.2.1"
+    },
+    {
+      "path": "boltz_model_metadata.json",
+      "retrieved_utc": "2026-10-15T16:43:38.179783+00:00",
+      "sha256": "219d810e5e69a3d99267062498b75c06bba1e6c1d8b2e50378b7f64ce3da8487",
+      "size_bytes": 1416,
+      "url": "https://huggingface.co/api/models/boltz-community/boltz-2?blobs=true"
+    },
+    {
+      "path": "4MEN_polymer_1.json",
+      "retrieved_utc": "2026-10-15T16:43:38.725881+00:00",
+      "sha256": "5969a24b39cb82d34b986ba10467926efdc9d2a83d30d6b93f440af87d7cd3a1",
+      "size_bytes": 93983,
+      "url": "https://data.rcsb.org/rest/v1/core/polymer_entity/4MEN/1"
+    },
+    {
+      "path": "25K.cif",
+      "retrieved_utc": "2026-10-15T16:43:39.563369+00:00",
+      "sha256": "7655d1fc6ae92cbe28bfbcee7f5ecd414628bc2fce126cf6e3cbdcf2ebe50d88",
+      "size_bytes": 8014,
+      "url": "https://files.rcsb.org/ligands/download/25K.cif"
+    },
+    {
+      "path": "32SC_entry.json",
+      "retrieved_utc": "2026-10-15T16:43:39.664035+00:00",
+      "sha256": "6da7159c4900e4a30456c083419901ffa7953fd4abd559187799667b1161e335",
+      "size_bytes": 11226,
+      "url": "https://data.rcsb.org/rest/v1/core/entry/32SC"
+    },
+    {
+      "path": "32SC_polymer_1.json",
+      "retrieved_utc": "2026-10-15T16:43:39.762240+00:00",
+      "sha256": "c7128638ce483c9f373d2245676c5494abaa6862926593b4506a5b463e81364d",
+      "size_bytes": 90421,
+      "url": "https://data.rcsb.org/rest/v1/core/polymer_entity/32SC/1"
+    },
+    {
+      "path": "32SC_nonpolymer_2.json",
+      "retrieved_utc": "2026-10-15T16:43:39.851732+00:00",
+      "sha256": "1ff72ac22a414ca6700dfb7c72789511c7ede156d4435d63a70ed4d09ff0c289",
+      "size_bytes": 1109,
+      "url": "https://data.rcsb.org/rest/v1/core/nonpolymer_entity/32SC/2"
+    },
+    {
+      "path": "32SC.cif",
+      "retrieved_utc": "2026-10-15T16:43:40.433485+00:00",
+      "sha256": "690a1c2ea7aa831829fd784c61e0d3057ce94d130e26106989060281a15225eb",
+      "size_bytes": 294990,
+      "url": "https://files.rcsb.org/download/32SC.cif"
+    },
+    {
+      "path": "32SC_pdbe_summary.json",
+      "retrieved_utc": "2026-10-15T16:43:40.979146+00:00",
+      "sha256": "5475fb7f875fa43ab1908c5da5962d53fb002212b525e1fd6b3f6a1cb3869bde",
+      "size_bytes": 645,
+      "url": "https://www.ebi.ac.uk/pdbe/api/pdb/entry/summary/32sc"
+    },
+    {
+      "path": "32SC_pdbe_publications.json",
+      "retrieved_utc": "2026-10-15T16:43:41.001988+00:00",
+      "sha256": "16f35af03b8c03c2c91653f757bea03b268559670210952ff6ab98674f60db26",
+      "size_bytes": 2202,
+      "url": "https://www.ebi.ac.uk/pdbe/api/pdb/entry/publications/32sc"
+    },
+    {
+      "path": "A1IGX_chemcomp.json",
+      "retrieved_utc": "2026-10-15T16:43:41.088775+00:00",
+      "sha256": "588543a800ec0a4361c594a112330e87a94f54cef7efd67858f4241dc0db889f",
+      "size_bytes": 3023,
+      "url": "https://data.rcsb.org/rest/v1/core/chemcomp/A1IGX"
+    },
+    {
+      "path": "A1IGX_ideal.sdf",
+      "retrieved_utc": "2026-10-15T16:43:41.323680+00:00",
+      "sha256": "189921549cc6ecc47b7ed34b5a80b64d122cd100cd2b30e379afa030bcf21ffb",
+      "size_bytes": 2430,
+      "url": "https://files.rcsb.org/ligands/download/A1IGX_ideal.sdf"
+    },
+    {
+      "path": "boltz_prediction_v2.2.1.md",
+      "retrieved_utc": "2026-10-15T16:43:42.015045+00:00",
+      "sha256": "b1c0296954ce2e4f2a7a8c64f02c910c9211f205fab83059ac092d8231dfba24",
+      "size_bytes": 28073,
+      "url": "https://raw.githubusercontent.com/jwohlwend/boltz/cb04aeccdd480fd4db707f0bbafde538397fa2ac/docs/prediction.md"
+    },
+    {
+      "path": "boltz_LICENSE.txt",
+      "retrieved_utc": "2026-10-15T16:43:42.219077+00:00",
+      "sha256": "f0667fd5e66c51e1ba8ddaa0249c6d7225b30037e02c45782d8f2c2943ac2617",
+      "size_bytes": 1102,
+      "url": "https://raw.githubusercontent.com/jwohlwend/boltz/cb04aeccdd480fd4db707f0bbafde538397fa2ac/LICENSE"
+    },
+    {
+      "archive_member": "boltz/main.py",
+      "archive_sha256": "b8c62bbdede1922931d9203118f62c858f11aa699bf91fd4c05a5ed6a6d8b4fc",
+      "path": "wheel_boltz_main.py.txt",
+      "retrieved_utc": "2026-10-15T16:43:42.781471+00:00",
+      "sha256": "b5ded4dac1552af2e079c335d56e64ea580b4d5ca0202a9542385ce3e318c3b3",
+      "size_bytes": 45798,
+      "url": "https://files.pythonhosted.org/packages/98/55/3eb80fdcf250a0d7bcfcccb584cae200d820fcc158dcdf3f2dbfa4662811/boltz-2.2.1-py3-none-any.whl"
+    },
+    {
+      "archive_member": "boltz/data/parse/schema.py",
+      "archive_sha256": "b8c62bbdede1922931d9203118f62c858f11aa699bf91fd4c05a5ed6a6d8b4fc",
+      "path": "wheel_boltz_data_parse_schema.py.txt",
+      "retrieved_utc": "2026-10-15T16:43:42.783471+00:00",
+      "sha256": "c0dae4c89c4c4a22175a433b5a0c68860329d2a292c76224328bdde19b73b743",
+      "size_bytes": 62148,
+      "url": "https://files.pythonhosted.org/packages/98/55/3eb80fdcf250a0d7bcfcccb584cae200d820fcc158dcdf3f2dbfa4662811/boltz-2.2.1-py3-none-any.whl"
+    },
+    {
+      "archive_member": "boltz/data/parse/yaml.py",
+      "archive_sha256": "b8c62bbdede1922931d9203118f62c858f11aa699bf91fd4c05a5ed6a6d8b4fc",
+      "path": "wheel_boltz_data_parse_yaml.py.txt",
+      "retrieved_utc": "2026-10-15T16:43:42.785499+00:00",
+      "sha256": "19115132d0c3e0f4383c8a40fd2d638f4bd1684bb62e565dfe0e2b375cd4acda",
+      "size_bytes": 1505,
+      "url": "https://files.pythonhosted.org/packages/98/55/3eb80fdcf250a0d7bcfcccb584cae200d820fcc158dcdf3f2dbfa4662811/boltz-2.2.1-py3-none-any.whl"
+    },
+    {
+      "archive_member": "boltz/data/write/mmcif.py",
+      "archive_sha256": "b8c62bbdede1922931d9203118f62c858f11aa699bf91fd4c05a5ed6a6d8b4fc",
+      "path": "wheel_boltz_data_write_mmcif.py.txt",
+      "retrieved_utc": "2026-10-15T16:43:42.791610+00:00",
+      "sha256": "ebf4c5773903bb4f5dbe8121ece2def65855c7f5947157586cca74d26ec3337c",
+      "size_bytes": 12213,
+      "url": "https://files.pythonhosted.org/packages/98/55/3eb80fdcf250a0d7bcfcccb584cae200d820fcc158dcdf3f2dbfa4662811/boltz-2.2.1-py3-none-any.whl"
+    },
+    {
+      "archive_member": "boltz/data/write/writer.py",
+      "archive_sha256": "b8c62bbdede1922931d9203118f62c858f11aa699bf91fd4c05a5ed6a6d8b4fc",
+      "path": "wheel_boltz_data_write_writer.py.txt",
+      "retrieved_utc": "2026-10-15T16:43:42.793160+00:00",
+      "sha256": "65b7fd13f6fdd0d06c0f241a9b717529cf1bbe5e2d5fb70e1aa068400ac2f815",
+      "size_bytes": 12997,
+      "url": "https://files.pythonhosted.org/packages/98/55/3eb80fdcf250a0d7bcfcccb584cae200d820fcc158dcdf3f2dbfa4662811/boltz-2.2.1-py3-none-any.whl"
+    },
+    {
+      "archive_member": "boltz-2.2.1.dist-info/METADATA",
+      "archive_sha256": "b8c62bbdede1922931d9203118f62c858f11aa699bf91fd4c05a5ed6a6d8b4fc",
+      "path": "wheel_boltz-2.2.1.dist-info_METADATA.txt",
+      "retrieved_utc": "2026-10-15T16:43:42.796544+00:00",
+      "sha256": "05f5bbdff6062a4279759df5822a4eeddef9a42c280e452272c8673cf47f68dd",
+      "size_bytes": 7684,
+      "url": "https://files.pythonhosted.org/packages/98/55/3eb80fdcf250a0d7bcfcccb584cae200d820fcc158dcdf3f2dbfa4662811/boltz-2.2.1-py3-none-any.whl"
+    },
+    {
+      "archive_member": "boltz-2.2.1.dist-info/entry_points.txt",
+      "archive_sha256": "b8c62bbdede1922931d9203118f62c858f11aa699bf91fd4c05a5ed6a6d8b4fc",
+      "path": "wheel_boltz-2.2.1.dist-info_entry_points.txt.txt",
+      "retrieved_utc": "2026-10-15T16:43:42.800356+00:00",
+      "sha256": "9f96b9237e67b6ef659b2af5ea86601cf158d1bd18c638a2c58ee6ee76cc4cb7",
+      "size_bytes": 41,
+      "url": "https://files.pythonhosted.org/packages/98/55/3eb80fdcf250a0d7bcfcccb584cae200d820fcc158dcdf3f2dbfa4662811/boltz-2.2.1-py3-none-any.whl"
+    },
+    {
+      "path": "9FWX_entry.json",
+      "retrieved_utc": "2026-10-15T16:44:53.980739+00:00",
+      "sha256": "060e85d33830a0199ec98e390f09d37f42df33deeb2342030d1ffc5cfb35ae3b",
+      "size_bytes": 12015,
+      "url": "https://data.rcsb.org/rest/v1/core/entry/9FWX"
+    },
+    {
+      "path": "9FWX.cif",
+      "retrieved_utc": "2026-10-15T16:44:54.388289+00:00",
+      "sha256": "fe6573175551f21de1ab54aa883e5e8d96de8e86ae8b29adf934fa5f3222efd9",
+      "size_bytes": 294164,
+      "url": "https://files.rcsb.org/download/9FWX.cif"
+    },
+    {
+      "method": "POST",
+      "path": "A1IGX_exact_graph_search.json",
+      "retrieved_utc": "2026-10-15T16:44:55.070694+00:00",
+      "sha256": "ddc3b74d7a52a66c02b87cba60d0b7df6f8f89bc3679d5148c7e4ca326e5a955",
+      "size_bytes": 658,
+      "url": "https://search.rcsb.org/rcsbsearch/v2/query"
+    }
+  ],
+  "schema_version": 1
+}

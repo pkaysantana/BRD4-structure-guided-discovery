@@ -1,0 +1,82 @@
+{
+  "analysis_source_sha256_LF": {
+    "__init__.py": "e11bfa9feb412e476a07ba653b8ba31971884344746ccba652dbaa74895178ec",
+    "constants.py": "e91134389e648e1cc7a812cb46b8c9bd510d88586bc29499b1d8f7d92751251b",
+    "contacts.py": "65e1645daea0b81f46b666aa54b2723ab2591dedbd1ed4d56c75f77486ca4e1d",
+    "descriptors.py": "370754e7e03255a0749f034e620679b4cbaddfc2d553e78e963365aee60f9e55",
+    "parse.py": "daf85c1086973ce8652dea13a82202ebac5687c75afea65f5711e4dfa014c525",
+    "phase2/__init__.py": "342d4125fad74ffe5199a3631389ef52b190223c0ad34636629594133f995331",
+    "phase2/audit.py": "49032ca654f80355894867a8a445b701370cb2979ac596dff22497dd9326587d",
+    "phase2/cli.py": "d11194e8e5d0fabba33edc1f41eddc12d9dc750a65fa39c151e8d1e28978385d",
+    "phase2/config.py": "2eee430c4a626c341e3bba8bedc72682cf1b49226d26b78f0b5e9be34c223dca",
+    "phase2/inputs.py": "d982ee4ce7b1a1e4a4a4f02dc46bf9e0ff11688f686f96a0af77113193f4caee",
+    "phase2/metrics.py": "c698539f6b71265454ad15d83ce34b315f49aa8251e3c85f2ed3d1135b8bcdad",
+    "phase2/runtime.py": "54cb2e8c3d33b39d9c4c1d96fe2588462ede2adec49e7654b4a21cf980caaa03",
+    "phase2/workflow.py": "189e36fc3ecb5f0eba1fd973b99671fa61c176a2d72c0a1168caa0be1dcfb729"
+  },
+  "boltz_inference_executed": false,
+  "gpu_preflight_executed": false,
+  "main_merge": "d0b9f63c53fc1aff5d29273191ee940a01e111be",
+  "main_tree_equals_phase1_reviewed_tree": true,
+  "model_weights_downloaded": false,
+  "original_phase2_head": "f5ce0c74eaa6b3adb707c1fc2ccc8c1e17067388",
+  "phase1_existing_files_changed_except_readme": [],
+  "phase1_protected_sha256": {
+    "data/ccd/25K_ideal.sdf": "2e978f1ec28868bcb8595e0001dd7964e8dc196a6f8a236a6c0dc6e3e48eb81b",
+    "data/ccd/25V_ideal.sdf": "18482eef7c8936325b4ce3455b219af3eb679c503f36145ba6f623f0eec31ef0",
+    "data/provenance/provenance.json": "98e82582627ed6e3b9727310808419b67daeb365164e80f272dd6d105cf9cefc",
+    "data/raw/4MEN.pdb": "a1b21bdc30365fb0ca905a6f9f00cc5955e3b382e6b726c02e4a2162be55b6a0",
+    "data/raw/4MEN_entry.json": "0ab358f1c41ae1008405ac3613aab027d7a625cbfe3e44a1a3073ddf8c7cc29b",
+    "data/raw/4MEO.pdb": "16f7df00cb65a5658c5e3bbb97458327ce73a27993b7304f035753215fa1b3de",
+    "data/raw/4MEO_entry.json": "6c47f4fb65484bbd3d87d835096a5ae82d31f5fb45533fd2813af4cd71e18cd0",
+    "docs/REPORT.md": "d009a800a8d141fd86bedd847d15fef4db3855ab9d17089d30ef5221cb39fb8f",
+    "results/figures/contacts_4MEN.png": "0030755c1b27aa28e4224d9cfd31fc7098da7be867e3b5b509d52731f6aa9cb8",
+    "results/figures/contacts_4MEO.png": "05b4408e70958db88519840ed1905264819c230c58240e1be127812ccea40224",
+    "results/figures/ligand_4MEN.png": "a5f2a88cb6d9fd9780b195c3bb9897ca5f76e1f86374c8f6298f7364a108241e",
+    "results/figures/ligand_4MEO.png": "c6a1c7699ea5424215c4b804f14c37074ca49da35066ee101d51f7f503090885",
+    "results/run_metadata.json": "311ca0ee1fcc77a921460b47581562cd1fba18dba763fdded64f3cdb7f8797e1",
+    "results/summary.json": "55d8c55b2fd433217bd31c01d6ebfcc5455162a973b3e4f5829996428281f056",
+    "results/tables/contact_pairs_4MEN.csv": "4e96cf867cae1d67fbc60492e7c5eaf98fe0852fd887ec69141b73529c024826",
+    "results/tables/contact_pairs_4MEO.csv": "924fba8c12483c488b48d79bf4dc8c44efadfc2a096df507c45bf89f5a497703",
+    "results/tables/contacts_summary_4MEN.csv": "5926016dbb9cf0c81575f737e2a8f6204333acd61555640271a741c85df56dd5",
+    "results/tables/contacts_summary_4MEO.csv": "c6f66d60eec40b161947b4d1808c8f4d72faa29cf06901b7be21a1f16f224bc3",
+    "results/tables/ligand_descriptors.csv": "9239469c103f2e2df3835a7059669f8c3914678ef9fed35ea418a0309aab652e",
+    "results/tables/threshold_counts.csv": "b61cd548d7509cd37565c2a02036d161dadc4dd72308c3e094f223d4cdf97776",
+    "results/tables/vdw_overlaps_4MEN.csv": "7575ab96e039d4d0b413bd699007b9a13f13a6436d2eea93540d6876761412c1",
+    "results/tables/vdw_overlaps_4MEO.csv": "9c12c380f7ba86afd20c9f4635ef624ac69da99996cde5f58cd9ff89375baa52"
+  },
+  "phase1_reviewed_head": "cba754944b8ce80028fb9e0c2602fcbc7c35ff0c",
+  "preflight_original_sha256": {
+    "docs/phase2/LEGION_GPU_PREFLIGHT.md": "fd3b3ea4127ff0ff48926991a217014c58dc704d33ddd4f947d299dd96ec1d0f",
+    "scripts/boltz_gpu_preflight.py": "35c5f9c3de6b10ae8b07325fb8d7e2e4b4944c34b72666a2675ed6fafe0e7d7c",
+    "tests/test_gpu_preflight.py": "e1a7f23e0ccf8e080be498636f202f13443e23c1b9cf152582c90153f4980d24"
+  },
+  "preservation_branch": "backup/phase2-pre-main-d0b9f63",
+  "preservation_branch_head": "34277a211873e511e3ad2c7dc4443c105d5e4f6f",
+  "primary_MSA_status": "real A3M, hash and provenance still pending",
+  "range_diff": "1:  d53ddbe = 1:  296177a Prepare offline Boltz-2 validation harness\n2:  f5ce0c7 = 2:  a3bae34 Reconcile full-MSA primary pilot and isolate smoke testing\n3:  34277a2 = 3:  5424df3 Add isolated Legion GPU preflight and usage guide\n",
+  "rebased_commits": [
+    {
+      "original": "d53ddbea5c32b7cea3d10975765d936e750e5e9b",
+      "rebased": "296177aaba0c352e17f69702d448b42a21b7fa1b"
+    },
+    {
+      "original": "f5ce0c74eaa6b3adb707c1fc2ccc8c1e17067388",
+      "rebased": "a3bae3433ef8020d428d0ce435e2a97472ce47e6"
+    },
+    {
+      "original": "34277a211873e511e3ad2c7dc4443c105d5e4f6f",
+      "rebased": "5424df311cb9ec5440d3d3e65949cc48948e036e"
+    }
+  ],
+  "recorded_utc": "2026-10-15T19:33:29.579543+00:00",
+  "source_case_policy": "32SC and 9FWX are one duplicated public complex",
+  "tests": {
+    "passed": 84,
+    "phase1": 45,
+    "phase2": 31,
+    "result": "........................................................................ [ 85%]\n............                                                             [100%]\n84 passed in 25.52s",
+    "synthetic_preflight": 8,
+    "tested_head": "5424df311cb9ec5440d3d3e65949cc48948e036e"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "experiment_id": "4men_smoke_s20261019_v4",
+  "requires_user_approval": true,
+  "reference": {
+    "pdb": {
+      "path": "data/raw/4MEN.pdb",
+      "sha256": "a1b21bdc30365fb0ca905a6f9f00cc5955e3b382e6b726c02e4a2162be55b6a0"
+    },
+    "ccd_sdf": {
+      "path": "data/ccd/25K_ideal.sdf",
+      "sha256": "2e978f1ec28868bcb8595e0001dd7964e8dc196a6f8a236a6c0dc6e3e48eb81b"
+    },
+    "ccd_cif": {
+      "path": "data/phase2/sources/25K.cif",
+      "sha256": "7655d1fc6ae92cbe28bfbcee7f5ecd414628bc2fce126cf6e3cbdcf2ebe50d88"
+    },
+    "polymer_metadata": {
+      "path": "data/phase2/sources/4MEN_polymer_1.json",
+      "sha256": "5969a24b39cb82d34b986ba10467926efdc9d2a83d30d6b93f440af87d7cd3a1"
+    }
+  },
+  "protein": {
+    "chain_id": "A",
+    "reference_chain": "A",
+    "sequence": "SMNPPPPETSNPNKPKRQTNQLQYLLRVVLKTLWKHQFAWPFQQPVDAVKLNLPDYYKIIKTPMDMGTIKKRLENNYYWNAQECIQDFNTMFTNCYIYNKPGDDIVLMAEALEKLFLQKINELPTEE",
+    "fit_auth_residue_range": [44, 168]
+  },
+  "ligand": {
+    "chain_id": "B",
+    "ccd_id": "25K",
+    "smiles": "Cc1ccc(CN(C)c2cc(C)nc3ncnn23)cc1",
+    "expected_inchikey": "JAEVUMCKPBRDAJ-UHFFFAOYSA-N"
+  },
+  "msa": {
+    "mode": "single_sequence"
+  },
+  "boltz": {
+    "version": "2.2.1",
+    "rdkit_version": "2026.3.6",
+    "model": "boltz2",
+    "seed": 20261019,
+    "recycling_steps": 3,
+    "sampling_steps": 200,
+    "diffusion_samples": 1,
+    "max_parallel_samples": 1,
+    "max_msa_seqs": 8192,
+    "step_scale": 1.5,
+    "use_potentials": false,
+    "no_kernels": true,
+    "affinity": false,
+    "templates": [],
+    "constraints": [],
+    "cache_dir": "/workspace/boltz-cache-v2.2.1"
+  },
+  "metrics": {
+    "contact_cutoffs_A": [3.5, 4.0, 5.0],
+    "primary_contact_cutoff_A": 4.0,
+    "min_contact_precision": 0.7,
+    "min_contact_recall": 0.7,
+    "max_ligand_rmsd_A": 2.0,
+    "max_protein_ca_rmsd_A": 2.0,
+    "pocket_cutoff_A": 8.0,
+    "geometry": {
+      "max_bond_length_error_A": 0.25,
+      "max_bond_angle_error_deg": 30.0,
+      "max_aromatic_plane_deviation_A": 0.15,
+      "min_nonbonded_vdw_ratio": 0.75,
+      "max_protein_ligand_overlap_A": 0.8
+    }
+  },
+  "resources": {
+    "gpu_count": 1,
+    "recommended_vram_GB": 24,
+    "min_ram_GB": 16,
+    "min_free_disk_GB": 25,
+    "wall_time_limit_minutes": 30,
+    "max_cost_USD": 5
+  }
+}

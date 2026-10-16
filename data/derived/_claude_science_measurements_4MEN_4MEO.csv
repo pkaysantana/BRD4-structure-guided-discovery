@@ -1,0 +1,28 @@
+metric,4MEN (compound 3 / 25K),4MEO (compound 5? / 25V),source
+Resolution (A),1.81,1.72,RCSB entry record
+R-work / R-free (deposited),0.163 / 0.219,0.1653 / 0.2126,mmCIF _refine
+"R-work / R-free (PDBe recomputed, DCC)",0.1699 / 0.2143,0.1719 / 0.2217,PDBe xray_refine_data_stats
+R-free after PDB-REDO re-refinement,0.2065,0.2072,PDB-REDO data.json
+RSRZ outliers (%),1.57,3.15,PDBe global-percentiles
+Geometry-quality percentile,67.16,82.00,PDBe summary_quality_scores
+Data-quality percentile,74.26,56.76,PDBe summary_quality_scores
+Ligand RSCC,0.953,0.872,RCSB ligand quality score 2021
+Ligand RSR,0.055,0.097,RCSB ligand quality score 2021
+Ligand fit ranking (percentile),0.8376,0.5062,RCSB ligand quality score 2021
+Ligand intermolecular clashes,2,4,RCSB ligand quality score 2021
+Ligand mean B (A^2),14.3,26.1,deposited coordinates
+Ligand occupancy,1.00 (all atoms),1.00 (all atoms),deposited coordinates
+Deposited formula,C15 H17 N5,C18 H16 N2 O2,CCD 25K / 25V
+Formula of compound in paper text,C15 H17 N5 (cpd 3),C18 H16 N2 O (cpd 5),Vidler 2013 HRMS
+Key KAc-mimetic H-bond,25K N2...Asn140 ND2 2.84 A,25V O(oxide)...Asn140 ND2 2.88 A,distance from coordinates
+Conserved-water contact,25K N1...HOH316 2.82 A (B 6.2),25V O...HOH327 3.03 A (B 14.2),distance from coordinates
+Additional polar contact,-,25V O1...Asp88 N 2.67 A (backbone NH),distance from coordinates
+N1-O distance (deposited),n/a,1.358 A,deposited coordinates
+N1-O distance (PDB-REDO),n/a,1.382 A,PDB-REDO final model
+B(N1) / B(O) deposited,n/a,13.6 / 34.5,deposited coordinates
+B(N1) / B(O) PDB-REDO,n/a,21.7 / 28.7,PDB-REDO final model
+2Fo-Fc at quinoline N1,n/a,3.44 sigma,"PDBe map, trilinear sample"
+2Fo-Fc at oxide O,n/a,1.55 sigma (local max 2.47),"PDBe map, trilinear sample"
+Fo-Fc at oxide O,n/a,-0.13 sigma,PDBe difference map
+Positive-density centroid from N1 (0.9-2.8 A window),n/a,1.73 A,PDBe map profile
+Candidate distances,n/a,1.358 A (deposited oxide) vs 2.14 A (paper water),Vidler 2013 / coordinates

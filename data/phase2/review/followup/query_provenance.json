@@ -1,0 +1,8 @@
+{
+  "MSA_search_executed": false,
+  "is_MSA": false,
+  "path": "data/phase2/msa/4men_query.fasta",
+  "sequence_length": 127,
+  "sha256": "665df2b2a988573ec179cde255a674262a9f8bdb20be6156b4dc68acedc70b0b",
+  "source_config": "configs/phase2/4men_primary.json"
+}
