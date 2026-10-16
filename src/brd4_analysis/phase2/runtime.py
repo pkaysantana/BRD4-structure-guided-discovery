@@ -41,7 +41,7 @@ RUNTIME_KEYS = {
     "reproducibility_environment", "model_assets", "model_repository_revision",
     "ccd_cache", "msa", "command", "boltz_executed_by_this_command", "user_approval",
 }
-RELEVANT_PACKAGES = {
+REQUIRED_METADATA_PACKAGES = {
     "torch", "numpy", "rdkit", "biopython", "pytorch-lightning",
     "scipy", "requests", "pyyaml",
 }
@@ -181,11 +181,11 @@ def validate_runtime_packages(packages: dict, config: dict) -> None:
     for value in Parser().parsestr(metadata_text, headersonly=True).get_all("Requires-Dist", []):
         requirement = Requirement(value)
         name = canonicalize_name(requirement.name)
-        if name in RELEVANT_PACKAGES and requirement.marker is None:
+        if requirement.marker is None:
             if name not in packages or not requirement.specifier.contains(packages[name], prereleases=False):
                 raise ValueError(f"Runtime {name} does not satisfy the pinned Boltz requirements")
             checked.add(name)
-    if checked != RELEVANT_PACKAGES:
+    if not REQUIRED_METADATA_PACKAGES <= checked:
         raise ValueError("Pinned Boltz runtime requirements are incomplete")
 
 

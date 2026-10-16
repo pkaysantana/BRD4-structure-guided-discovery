@@ -24,6 +24,11 @@ PACKAGES = {
     "boltz": "2.2.1", "rdkit": "2026.3.6", "torch": "2.7.1+cu128",
     "numpy": "1.26.4", "biopython": "1.84", "pytorch-lightning": "2.5.0",
     "scipy": "1.13.1", "requests": "2.32.3", "pyyaml": "6.0.2",
+    "hydra-core": "1.3.2", "dm-tree": "0.1.8", "pandas": "2.2.3",
+    "types-requests": "0.0.0", "einops": "0.8.0", "einx": "0.3.0",
+    "fairscale": "0.4.13", "mashumaro": "3.14", "modelcif": "1.2",
+    "wandb": "0.18.7", "click": "8.1.7", "numba": "0.61.0",
+    "gemmi": "0.6.5", "scikit-learn": "1.6.1", "chembl-structure-pipeline": "1.2.2",
 }
 
 
@@ -303,7 +308,7 @@ def test_inconsistent_runtime_fields_are_rejected_even_with_a_matching_checksum(
     assert not (run / "analysis").exists()
 
 
-@pytest.mark.parametrize("change", ["missing_field", "extra_field", "package_version", "package_missing", "package_name",
+@pytest.mark.parametrize("change", ["missing_field", "extra_field", "package_version", "package_missing", "package_name", "serializer_version",
                                      "asset_hash", "asset_missing", "asset_duplicate", "ccd_archive", "ccd_method",
                                      "naive_timestamp", "old_timestamp"])
 def test_malformed_or_inconsistent_provenance_cannot_reach_scoring(scoreable_run, change):
@@ -318,6 +323,8 @@ def test_malformed_or_inconsistent_provenance_cannot_reach_scoring(scoreable_run
         del record["packages"]["pytorch-lightning"]
     elif change == "package_name":
         record["packages"]["invalid package name"] = "1.0"
+    elif change == "serializer_version":
+        record["packages"]["modelcif"] = "0.0"
     elif change == "asset_hash":
         record["model_assets"][0]["sha256"] = "0" * 64
     elif change == "asset_missing":
