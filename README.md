@@ -10,13 +10,27 @@ geometry at 3.5 / 4.0 / 5.0 Å. The scientific report, including the
 unresolved 4MEO ligand-identity question, is in `docs/REPORT.md`.
 
 **Phase 2 preparation** adds an offline, controlled Boltz-2 pilot harness.
-Start with [`docs/phase2/PR_REVIEW.md`](docs/phase2/PR_REVIEW.md)
-for the current review scope, validation and execution gates. Phase 1 is
+[`docs/phase2/PR_REVIEW.md`](docs/phase2/PR_REVIEW.md) records its review
+scope, validation and execution gates as of preparation. Phase 1 is
 merged on `main` at `d0b9f63`; its calculations and results are preserved.
-Model downloads and GPU execution await user review; no predictions have
-been generated.
 The primary condition uses a cached full MSA; the no-MSA configuration is
-an optional smoke test. See the review packet for the pending MSA-input gate.
+an optional smoke test that has not been executed.
+
+**Phase 3** (status as of 17 October 2026) executed the primary
+full-MSA experiment `4men_msa_s20261019_v1` once. It was one Boltz-2.2.1
+GPU inference with one seed and one sample. The run was evaluated against
+the preregistered gates, and all of them passed. Two independent reviews,
+generated outside this repository by Codex and Claude Code, then audited
+the result. Their transcripts are not archived here. The run is a
+single-case, retrospective reconstruction of a complex released before
+the model's reported training cutoff. It is not evidence of generalisation
+or prospective accuracy. Results, provenance, deviations and limitations
+are in the
+[post-run report](docs/phase2/4MEN_PRIMARY_POST_RUN.md); the experiment
+catalogue is [`experiments/phase2/README.md`](experiments/phase2/README.md).
+
+**Phase 4** (robustness and memorisation probes) is at the stage of
+offline development. No further GPU inference has been approved.
 
 ## Quickstart
 
