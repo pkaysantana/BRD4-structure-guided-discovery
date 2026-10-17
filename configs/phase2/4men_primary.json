@@ -24,7 +24,10 @@
     "chain_id": "A",
     "reference_chain": "A",
     "sequence": "SMNPPPPETSNPNKPKRQTNQLQYLLRVVLKTLWKHQFAWPFQQPVDAVKLNLPDYYKIIKTPMDMGTIKKRLENNYYWNAQECIQDFNTMFTNCYIYNKPGDDIVLMAEALEKLFLQKINELPTEE",
-    "fit_auth_residue_range": [44, 168]
+    "fit_auth_residue_range": [
+      44,
+      168
+    ]
   },
   "ligand": {
     "chain_id": "B",
@@ -36,13 +39,13 @@
     "mode": "local_a3m",
     "file": {
       "path": "data/phase2/msa/4men_full.a3m",
-      "sha256": null
+      "sha256": "8d0374e94722d690f26a96b6539e133f55dfb11cb508083d8c12d3abac2baf53"
     },
     "provenance": {
-      "generator": null,
-      "database": null,
-      "database_release": null,
-      "retrieved_utc": null,
+      "generator": "Boltz 2.2.1 MMseqs2 client",
+      "database": "ColabFold MMseqs2 env mode",
+      "database_release": "unknown",
+      "retrieved_utc": "2026-10-17T00:45:46.496379+00:00",
       "server": "https://api.colabfold.com"
     }
   },
@@ -65,7 +68,11 @@
     "cache_dir": "/workspace/boltz-cache-v2.2.1"
   },
   "metrics": {
-    "contact_cutoffs_A": [3.5, 4.0, 5.0],
+    "contact_cutoffs_A": [
+      3.5,
+      4.0,
+      5.0
+    ],
     "primary_contact_cutoff_A": 4.0,
     "min_contact_precision": 0.7,
     "min_contact_recall": 0.7,
