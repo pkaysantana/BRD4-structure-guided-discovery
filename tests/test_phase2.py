@@ -302,20 +302,43 @@ def test_reference_validation_and_duplicate_later_case():
     assert later["entries"]["9FWX"]["initial_release_date"].startswith("2024-08-07")
 
 
-def test_primary_plan_is_explicitly_blocked_while_smoke_is_separate(tmp_path):
+def test_pinned_primary_is_preparable_but_unauthorised_while_smoke_is_separate():
+    """The committed primary MSA is pinned; readiness never grants execution."""
     primary = PROJECT_ROOT / "configs/phase2/4men_primary.json"
-    _, _, plan = validate(primary, allow_pending_msa=True)
+    _, _, plan = validate(primary)
     assert plan["experiment_role"] == "primary_structural_evaluation"
-    assert not plan["ready_for_preparation"]
-    assert not plan["execution_authorized"]
+    assert plan["status"] == "offline_validated_not_executed"
+    assert plan["ready_for_preparation"]
+    assert plan["execution_authorized"] is False
     assert plan["proposed_input"]["sequences"][0]["protein"]["msa"] == "inputs/protein.a3m"
     assert "--use_msa_server" not in plan["planned_command"]
-    with pytest.raises(ValueError, match="MSA"):
-        prepare(primary, tmp_path)
-    assert list(tmp_path.iterdir()) == []
     _, _, smoke = validate(CONFIG)
     assert smoke["experiment_role"] == "smoke_test"
     assert smoke["ready_for_preparation"]
+    assert smoke["execution_authorized"] is False
+
+
+@pytest.mark.parametrize("unset", ["checksum_and_provenance", "checksum", "provenance"])
+def test_unpinned_primary_msa_is_blocked_from_strict_preparation(tmp_path, unset):
+    """A synthetic copy of the primary design with its MSA pin removed."""
+    pending = read_json(PROJECT_ROOT / "configs/phase2/4men_primary.json")
+    pending["experiment_id"] = "4men_msa_pending_fixture"
+    if unset != "provenance":
+        pending["msa"]["file"]["sha256"] = None
+    if unset != "checksum":
+        pending["msa"]["provenance"] = dict.fromkeys(pending["msa"]["provenance"])
+    path = tmp_path / "pending.json"
+    path.write_text(json.dumps(pending))
+    _, _, plan = validate(path, allow_pending_msa=True)
+    assert plan["status"] == "design_validated_MSA_pending_not_executable"
+    assert not plan["ready_for_preparation"]
+    assert plan["execution_authorized"] is False
+    with pytest.raises(ValueError, match="MSA|SHA-256"):
+        validate(path)
+    output = tmp_path / "experiments"
+    with pytest.raises(ValueError, match="MSA|SHA-256"):
+        prepare(path, output)
+    assert not output.exists()
 
 
 @pytest.fixture
