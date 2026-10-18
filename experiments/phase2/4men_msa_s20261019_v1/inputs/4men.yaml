@@ -1,0 +1,18 @@
+{
+  "sequences": [
+    {
+      "protein": {
+        "id": "A",
+        "msa": "inputs/protein.a3m",
+        "sequence": "SMNPPPPETSNPNKPKRQTNQLQYLLRVVLKTLWKHQFAWPFQQPVDAVKLNLPDYYKIIKTPMDMGTIKKRLENNYYWNAQECIQDFNTMFTNCYIYNKPGDDIVLMAEALEKLFLQKINELPTEE"
+      }
+    },
+    {
+      "ligand": {
+        "id": "B",
+        "smiles": "Cc1ccc(CN(C)c2cc(C)nc3ncnn23)cc1"
+      }
+    }
+  ],
+  "version": 1
+}

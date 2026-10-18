@@ -1,0 +1,11 @@
+{
+  "generator": "Boltz 2.2.1 MMseqs2 client",
+  "database": "ColabFold MMseqs2 env mode",
+  "database_release": "unknown",
+  "server": "https://api.colabfold.com",
+  "retrieved_utc": "2026-10-17T00:45:46.496379+00:00",
+  "query_sha256": "fbf3f5c695a3b8c47960f7f87595ade0ba42d8f497f2c0c835fe377069f49978",
+  "alignment_records": 10877,
+  "alignment_sha256": "8d0374e94722d690f26a96b6539e133f55dfb11cb508083d8c12d3abac2baf53",
+  "acquisition_seconds": 2.5
+}

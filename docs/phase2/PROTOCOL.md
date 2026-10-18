@@ -1,5 +1,16 @@
 # Controlled Boltz-2 pilot: reconciled preregistration
 
+> **Status note, 17 October 2026.** This document is the preregistered
+> protocol and is kept as written before execution. Statements below that
+> the MSA is not yet acquired, that no environment is selected, or that no
+> prediction or measurement exists describe the preparation stage only.
+> The full MSA was then acquired and pinned (commit `c9b09dc`), and the
+> primary experiment `4men_msa_s20261019_v1` was run once with exactly the
+> command below and analysed. All preregistered gates passed. See the
+> [post-run report](4MEN_PRIMARY_POST_RUN.md) for results, recorded
+> departures and limitations. No setting, definition or threshold in this
+> protocol has been changed.
+
 Status: **design reviewed against all six supplied deliverables; no
 prediction executed**. The primary scientific condition follows the
 supplied protocol's Arm A: sequence + full cached MSA, no template.
