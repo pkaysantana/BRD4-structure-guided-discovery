@@ -1,5 +1,7 @@
 # Preserve raw data byte-for-byte so SHA-256 checksums in
 # data/provenance/provenance.json remain valid after checkout on Windows.
 # Generated JSON uses LF; CSV uses explicit CRLF. Keep both untranslated.
+# Experiment configuration is itself provenance and its SHA-256 is recorded.
+configs/** -text
 data/** -text
 results/** -text

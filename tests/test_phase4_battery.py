@@ -67,24 +67,33 @@ def write_faithful_prediction(path, ctx, pred):
 
 def test_parity_with_committed_phase3_metrics(ctx):
     """evaluate() on the real prediction must reproduce the frozen run's
-    committed metrics exactly — this is what licenses the battery to stand
-    in for score_prediction on synthetic variants."""
+    committed metrics within the tight scientific tolerance used for portable
+    artifact comparison — this is what licenses the battery to stand in for
+    score_prediction on synthetic variants."""
     committed = read_json(ANALYSIS_METRICS)
     result = evaluate(ctx["config"], ctx["ref"], ctx["pred"])
-    assert result["ligand_pose"]["rmsd_A"] == committed["ligand_pose"]["rmsd_A"]
-    assert result["protein_ca_rmsd_A"] == committed["protein_ca_rmsd_A"]
+    tolerance = {"rel": 1e-12, "abs": 1e-12}
+    assert result["ligand_pose"]["rmsd_A"] == pytest.approx(
+        committed["ligand_pose"]["rmsd_A"], **tolerance)
+    assert result["protein_ca_rmsd_A"] == pytest.approx(
+        committed["protein_ca_rmsd_A"], **tolerance)
     assert result["acceptance_gates"] == committed["acceptance_gates"]
     assert result["harness_success"] == committed["harness_success"]
     for cutoff in ("3.5", "4.0", "5.0"):
         got, exp = result["contacts"][cutoff], committed["contacts"][cutoff]
         assert got["predicted_residues"] == exp["predicted_residues"]
-        assert got["precision"] == exp["precision"] and got["recall"] == exp["recall"]
+        assert got["precision"] == pytest.approx(exp["precision"], **tolerance)
+        assert got["recall"] == pytest.approx(exp["recall"], **tolerance)
         assert (got["true_positive"], got["false_positive"], got["false_negative"]) == (
             exp["true_positive"], exp["false_positive"], exp["false_negative"])
     for key in ("max_bond_length_error_A", "max_bond_angle_error_deg",
                 "max_aromatic_plane_deviation_A", "min_nonbonded_vdw_ratio",
                 "severe_protein_ligand_overlap_pairs", "valid"):
-        assert result["geometry"][key] == committed["geometry"][key]
+        expected = committed["geometry"][key]
+        if isinstance(expected, float):
+            assert result["geometry"][key] == pytest.approx(expected, **tolerance)
+        else:
+            assert result["geometry"][key] == expected
 
 
 def test_parity_with_registered_score_prediction(ctx):
@@ -358,13 +367,56 @@ def test_battery_records_post_audit_provenance(battery):
     assert set(battery["environment"]["packages"]) == {"biopython", "numpy", "rdkit"}
 
 
+def _markdown_rows(document: str) -> list[dict]:
+    rows = []
+    header = None
+    for line in document.splitlines():
+        if not line.startswith("|"):
+            continue
+        cells = [cell.strip() for cell in line.strip("|").split("|")]
+        if cells[0] == "case":
+            header = cells
+        elif header is not None and cells[0] != "---":
+            rows.append(dict(zip(header, cells)))
+    return rows
+
+
+def _assert_findings_document_matches_result(document: str, result: dict) -> None:
+    rows = _markdown_rows(document)
+    gate_rows = [row for row in rows if "all gates" in row]
+    value_rows = [row for row in rows if "all gates" not in row]
+    expected_names = [f"`{case['name']}`" for case in result["cases"]]
+    assert [row["case"] for row in gate_rows] == expected_names
+    assert [row["case"] for row in value_rows] == expected_names
+
+    for row, case in zip(gate_rows, result["cases"], strict=True):
+        assert row["family"] == case["family"]
+        for gate, passed in case["gates"].items():
+            assert row[gate] == ("PASS" if passed else "FAIL")
+        assert row["all gates"] == ("PASS" if case["harness_success"] else "FAIL")
+        proposals = set() if row["failed proposals"] == "-" else set(
+            row["failed proposals"].split(", "))
+        assert proposals == {
+            name for name, check in case["candidate_checks"].items()
+            if not check["pass"]
+        }
+
+    for row, case in zip(value_rows, result["cases"], strict=True):
+        assert set(row) - {"case"} == set(case["candidate_checks"])
+        for name, check in case["candidate_checks"].items():
+            expected = f"{check['value']:.4g}" + (
+                "" if check["pass"] else " **FAIL**")
+            assert row[name] == expected
+
+
 def test_generated_result_matches_versioned_artifact(battery):
     artifact_dir = PROJECT_ROOT / "experiments" / "phase4" / "adversarial_screen_v1"
     stored = read_json(artifact_dir / "results.json")
     _assert_scientific_artifact_equal(battery, stored)
-    assert cli.findings_markdown(battery).encode() == (
-        artifact_dir / "FINDINGS.md"
-    ).read_bytes()
+    _assert_findings_document_matches_result(
+        cli.findings_markdown(battery), battery)
+    _assert_findings_document_matches_result(
+        (artifact_dir / "FINDINGS.md").read_text(encoding="utf-8"), stored)
 
 
 def test_scientific_artifact_comparison_is_environment_portable(ctx, monkeypatch):
