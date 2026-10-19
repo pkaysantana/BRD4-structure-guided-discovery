@@ -1,0 +1,22 @@
+{
+  "battery_revision": "post_audit_v1",
+  "input_provenance": {
+    "analysis_metrics_sha256": "e0bf5efb83167df4c43ed9457374b545979deed892aaf3fd03c2cae10eb0ea0f",
+    "config_sha256": "735234212086da69b67105136e668cda70fa82dc3d5552bd984c6330e77398c0",
+    "prediction_sha256": "2d06e475e8a7cd96eb17bd81c8e9b4ce2572d2a3c057fbd1a09318852a1fb37a"
+  },
+  "output_artifacts_sha256": {
+    "FINDINGS.md": "a65ae6c33f06a30789a3a386ed5b3b6575a44331c603c81b968eb24112bc122a",
+    "results.json": "381235ccf87f06b09fc8318b7b31f06169006016763a99f3e4351aaf5f1531dd"
+  },
+  "phase4_source_sha256_LF": {
+    "__init__.py": "38be4be702c11647f067901c43dbf3511e5306c330a2a07c4ef9ad2ccc8c637a",
+    "battery.py": "1f81ebdfd6b164ad1ec97a73837301b7615c55137421d8689012e797dde4dd07",
+    "checks.py": "56c6aa4e8ee6022a749e250689723fe43a51a267c3b1e6755fecf9fd275c8b69",
+    "cli.py": "b88a5a63205cb6410bb41500a9cd9578daaeba68ae2f872548175ad0e91322aa",
+    "evaluate.py": "7b0bf48133c7f75e065883ef49bfb66716001b5ffe79599c065e2958f1a27386",
+    "perturb.py": "5e9b25393931c8dc0e0ef587a6f805bc28357cd95617c035e97e4bc736d52678",
+    "synthetic.py": "0b6808a1ef5a3c3084596de89498ac9675e15b4dd7ba0c17683dd76b72a4988f"
+  },
+  "schema_version": 1
+}

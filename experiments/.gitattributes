@@ -1,2 +1,4 @@
 # Prepared bundles contain byte-level hashes and must survive cross-platform checkout.
 phase2/** -text
+# Phase 4 generated JSON/Markdown is written with LF endings; keep untranslated.
+phase4/** -text
